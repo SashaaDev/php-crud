@@ -1,0 +1,34 @@
+post:
+  tags:
+    - "campaign"
+  summary: "Add a new campaign"
+  description: ""
+  operationId: "createCampaign"
+  consumes:
+    - "application/json"
+    - "multipart/form-data"
+  produces:
+    - "application/json"
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/campaign_schema.yaml#/schemas/campaignCreateInputObject"
+      multipart/form-data:
+        schema:
+          $ref: "../schemas/campaign_schema.yaml#/schemas/campaignCreateInputObject"
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  status:
+                    type: string
+                    default: "success"
+                  data:
+                    $ref: "../schemas/campaign_schema.yaml#/schemas/campaignOutputObject"
+              - $ref: "../schemas/common_responses.yaml#/schemas/FailureResponse"

@@ -1,0 +1,42 @@
+post:
+  tags:
+    - "report"
+  summary: "Get report status and url for download"
+  description: ""
+  operationId: "getReport"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/inputObject"
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "../schemas/schemas.yaml#/components/responses/DownloadReportResponse"
+              - $ref: "../schemas/common_responses.yaml#/schemas/FailureResponse"
+components:
+  schemas:
+    inputObject:
+      type: object
+      required:
+        - staffId
+        - reportId
+      properties:
+        staffId:
+          description: "Id of report creator"
+          type: integer
+          format: int32
+          example: 1
+        reportId:
+          description: "Report Id"
+          type: integer
+          format: int32
+          example: 1

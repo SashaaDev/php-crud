@@ -1,0 +1,506 @@
+openapi: 3.0.3
+info:
+  title: Vacancies
+  description: Vacancies
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:85/api'
+    description: local
+
+# securitySchemes:
+#   BearerToken:
+#     type: http
+#     scheme: bearer
+#     bearerFormat: JWT
+paths:
+
+  /recruiters/{id}/vacancies/drafts:
+    get:
+      tags:
+        - Vacancies Drafts
+      summary: Get all vacancies draft
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 50
+          required: true
+      responses:
+        '200':
+          description: Successful displayed all drafts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  category_id:
+                    type: integer
+                    format: int32
+                  recruiter_id:
+                    type: integer
+                    format: int32
+                  company_id:
+                    type: integer
+                    format: int32
+                  title:
+                    type: string
+                  status:
+                    type: string
+                  description:
+                    type: string
+                  salary_from_public:
+                    type: integer
+                    format: int32
+                  salary_to_public:
+                    type: integer
+                    format: int32
+                  salary_from_private:
+                    type: integer
+                    format: int32
+                  salary_to_private:
+                    type: integer
+                    format: int32
+                  experience:
+                    type: integer
+                    format: int32
+                  company_type_id:
+                    type: integer
+                    format: int32
+                  languages_ids:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        language_id:
+                          type: integer
+                          format: int32
+                        language_level_id:
+                          type: integer
+                          format: int32
+                  geo_ids:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        country_id:
+                          type: integer
+                          format: int32
+                        city_id:
+                          type: integer
+                          format: int32
+                  employment_types_ids:
+                    type: array
+                    items:
+                      type: object
+                  locations_ids:
+                    type: array
+                    items:
+                      type: object
+                  skills_names:
+                    type: array
+
+
+    post:
+      tags:
+        - Vacancies Drafts
+      summary: Create vacancies draft
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 551
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                status:
+                  type: string
+                salary_from_public:
+                  type: string
+                salary_to_public:
+                  type: string
+                salary_from_private:
+                  type: string
+                salary_to_private:
+                  type: string
+                experience:
+                  type: integer
+                  format: int32
+                category_id:
+                  type: integer
+                  format: int32
+                recruiter_id:
+                  type: integer
+                  format: int32
+                company_type_id:
+                  type: integer
+                  format: int32
+                languages_ids:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      language_id:
+                        type: integer
+                        format: int32
+                      language_level_id:
+                        type: integer
+                        format: int32
+                employment_types_ids:
+                  type: array
+                locations_ids:
+                  type: array
+                geo_ids:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      country_id:
+                        type: integer
+                        format: int32
+                      city_id:
+                        type: integer
+                        format: int32
+                skills_names:
+                  type: array
+                  example:
+                    - 'string'
+                    - 'string'
+                    - 'string'
+                    - 'string'
+
+      responses:
+        '201':
+          description: Vacancies Drafts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  status:
+                    type: string
+                  description:
+                    type: string
+                  salary_from_public:
+                    type: integer
+                    format: int32
+                  salary_to_public:
+                    type: integer
+                    format: int32
+                  salary_from_private:
+                    type: integer
+                    format: int32
+                  salary_to_private:
+                    type: integer
+                    format: int32
+                  experience:
+                    type: integer
+                    format: int32
+                  recruiter_id:
+                    type: integer
+                    format: int32
+                  company_type_id:
+                    type: integer
+                    format: int32
+                  category_id:
+                    type: integer
+                    format: int32
+                  vacancy_employment_type_ids:
+                    type: string
+                  vacancy_geo_ids:
+                    type: string
+                  vacancy_location_ids:
+                    type: string
+                  vacancy_skill_names:
+                    type: string
+                  updated_at:
+                    type: string
+                  created_at:
+                    type: string
+                  id:
+                    type: integer
+                    format: int32
+
+  /recruiters/{recruiter_id}/vacancies/drafts/{draft_id}:
+    get:
+      tags:
+        - Vacancies Drafts
+      summary: Get vacancy draft
+      parameters:
+        - in: path
+          name: recruiter_id
+          schema:
+            type: integer
+            example: 49
+          required: true
+        - in: path
+          name: draft_id
+          schema:
+            type: integer
+            example: 3
+          required: true
+      responses:
+        '200':
+          description: Successful displayed draft
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  category_id:
+                    type: integer
+                    format: int32
+                  recruiter_id:
+                    type: integer
+                    format: int32
+                  company_id:
+                    type: integer
+                    format: int32
+                  title:
+                    type: string
+                  status:
+                    type: string
+                  description:
+                    type: string
+                  salary_from_public:
+                    type: integer
+                    format: int32
+                  salary_to_public:
+                    type: integer
+                    format: int32
+                  salary_from_private:
+                    type: integer
+                    format: int32
+                  salary_to_private:
+                    type: integer
+                    format: int32
+                  experience:
+                    type: integer
+                    format: int32
+                  company_type_id:
+                    type: integer
+                    format: int32
+                  languages_ids:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        language_id:
+                          type: integer
+                          format: int32
+                        language_level_id:
+                          type: integer
+                          format: int32
+                  geo_ids:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        country_id:
+                          type: integer
+                          format: int32
+                        city_id:
+                          type: integer
+                          format: int32
+                  employment_types_ids:
+                    type: array
+                    items:
+                      type: object
+                  locations_ids:
+                    type: array
+                    items:
+                      type: object
+                  skills_names:
+                    type: array
+
+    put:
+      tags:
+        - Vacancies Drafts
+      summary: Update vacancy draft
+      parameters:
+        - in: path
+          name: recruiter_id
+          schema:
+            type: integer
+            example: 49
+          required: true
+        - in: path
+          name: draft_id
+          schema:
+            type: integer
+            example: 3
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                category_id:
+                  type: integer
+                  format: int32
+                recruiter_id:
+                  type: integer
+                  format: int32
+                company_id:
+                  type: integer
+                  format: int32
+                title:
+                  type: string
+                status:
+                  type: string
+                description:
+                  type: string
+                salary_from_public:
+                  type: integer
+                  format: int32
+                salary_to_public:
+                  type: integer
+                  format: int32
+                salary_from_private:
+                  type: integer
+                  format: int32
+                salary_to_private:
+                  type: integer
+                  format: int32
+                experience:
+                  type: integer
+                  format: int32
+                company_type_id:
+                  type: integer
+                  format: int32
+                languages_ids:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      language_id:
+                        type: integer
+                        format: int32
+                      language_level_id:
+                        type: integer
+                        format: int32
+                geo_ids:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      country_id:
+                        type: integer
+                        format: int32
+                      city_id:
+                        type: integer
+                        format: int32
+                employment_types_ids:
+                  type: array
+                  items:
+                    type: object
+                locations_ids:
+                  type: array
+                  items:
+                    type: object
+                skills_names:
+                  type: array
+
+      responses:
+        '200':
+          description: Successful updated draft
+          content:
+            application/json:
+              schema:
+                properties:
+                  category_id:
+                    type: integer
+                    format: int32
+                  recruiter_id:
+                    type: integer
+                    format: int32
+                  company_id:
+                    type: integer
+                    format: int32
+                  title:
+                    type: string
+                  status:
+                    type: string
+                  description:
+                    type: string
+                  salary_from_public:
+                    type: integer
+                    format: int32
+                  salary_to_public:
+                    type: integer
+                    format: int32
+                  salary_from_private:
+                    type: integer
+                    format: int32
+                  salary_to_private:
+                    type: integer
+                    format: int32
+                  experience:
+                    type: integer
+                    format: int32
+                  company_type_id:
+                    type: integer
+                    format: int32
+                  languages_ids:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        language_id:
+                          type: integer
+                          format: int32
+                        language_level_id:
+                          type: integer
+                          format: int32
+                  geo_ids:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        country_id:
+                          type: integer
+                          format: int32
+                        city_id:
+                          type: integer
+                          format: int32
+                  employment_types_ids:
+                    type: array
+                    items:
+                      type: object
+                  locations_ids:
+                    type: array
+                    items:
+                      type: object
+                  skills_names:
+                    type: array
+    delete:
+      tags:
+        - Vacancies Drafts
+      summary: Delete vacancy draft
+      parameters:
+        - in: path
+          name: recruiter_id
+          schema:
+            type: integer
+            example: 49
+          required: true
+        - in: path
+          name: draft_id
+          schema:
+            type: integer
+            example: 3
+          required: true
+      responses:
+        '204':
+          description: Successful deleted draft
+

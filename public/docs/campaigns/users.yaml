@@ -1,0 +1,167 @@
+post:
+  tags:
+    - "campaign"
+  summary: "Get all users for campaign"
+  description: ""
+  operationId: "users"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  parameters:
+    - name: id
+      in: path
+      description: Campaign id
+      required: true
+      type: integer
+      format: int32
+      example: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/inputObject"
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  status:
+                    type: string
+                    default: "success"
+                  data:
+                    type: object
+                    properties:
+                      totalCount:
+                        $ref: "../schemas/schemas.yaml#/components/schemas/TotalCount"
+                      campaignUsers:
+                        type: array
+                        items:
+                          $ref: "../schemas/campaign_users_schema.yaml#/schemas/listResponseObject"
+              - $ref: "../schemas/common_responses.yaml#/schemas/FailureResponse"
+components:
+  schemas:
+    inputObject:
+      type: object
+      required:
+        - page
+        - perPage
+      properties:
+        userId:
+          description: "Player Id"
+          type: integer
+          format: int32
+          example: 1
+        campaignUserId:
+          description: "Campaign user Id"
+          type: integer
+          format: int32
+          example: 1
+        page:
+          description: "Page number"
+          type: integer
+          format: int32
+          example: 1
+        perPage:
+          description: "Show items per page"
+          type: integer
+          format: int32
+          example: 5
+        statuses:
+          description: "Filter statuses"
+          type: array
+          items:
+            type: string
+            enum:
+              - "potential"
+              - "expired_potential"
+              - "proposed"
+              - "expired_proposed"
+              - "wagering"
+              - "expired_wagering_period"
+              - "cancelled_by_manager"
+              - "cancelled_by_player"
+              - "completed"
+            example: "proposed"
+        bonusAmountFrom:
+          description: "Bonus amount from"
+          type: float
+          example: 10.5
+        bonusAmountTo:
+          description: "Bonus amount to"
+          type: float
+          example: 20.5
+        currencies:
+          description: "User campaign currency"
+          type: array
+          items:
+            type: string
+            example: "USD"
+        sourceId:
+          description: "Source id"
+          type: integer
+          format: int32
+          example: 1
+        sourceName:
+          description: "Source name"
+          type: string
+          example: "123.csv"
+        comment:
+          description: "Comment"
+          type: string
+          example: "Some text"
+        staffId:
+          description: "Updaters ids"
+          type: array
+          items:
+            type: integer
+            format: int32
+          example: [1, 2, 3]
+        marks:
+          type: array
+          items:
+            type: string
+            enum:
+              - "is_bonus_hunter"
+              - "ludoman"
+              - "self_limited"
+          example: ["is_bonus_hunter", "ludoman", "self_limited"]
+        updatedAtFrom:
+          description: "Filter updated at from"
+          type: string
+          format: date-time
+          example: "2022-07-02 12:43:33"
+        updatedAtTo:
+          description: "Filter updated at to"
+          type: string
+          format: date-time
+          example: "2022-08-02 12:43:33"
+        sortField:
+          description: "Order by field name"
+          type: string
+          enum:
+            - "userId"
+            - "campaignUserId"
+            - "status"
+            - "bonusAmount"
+            - "currency"
+            - "sourceId"
+            - "sourceName"
+            - "comment"
+            - "marks"
+            - "staffId"
+            - "updatedAt"
+          example: "userId"
+        sortOrder:
+          description: "Order by direction"
+          type: string
+          enum:
+            - "desc"
+            - "asc"
+            - "DESC"
+            - "ASC"
+          example: "DESC"

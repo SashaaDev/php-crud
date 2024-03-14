@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Company Types
+  description: System Info about company types
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:85/api'
+    description: local
+
+# securitySchemes:
+#   BearerToken:
+#     type: http
+#     scheme: bearer
+#     bearerFormat: JWT
+paths:
+
+  /company-types:
+    get:
+      tags:
+        - Company Types
+      summary: Get all company types
+      responses:
+        '200':
+          description: Successful displayed all company types
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    id:
+                      type: integer
+                      format: int32
+                    name:
+                      type: string
+                example:
+                  - id: 1
+                    name: B2B
+                  - id: 2
+                    name: B2C
+                  - id: 3
+                    name: Agency

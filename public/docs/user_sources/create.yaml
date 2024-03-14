@@ -1,0 +1,34 @@
+post:
+  tags:
+    - "user-source"
+  summary: "Add a new user-source to campaign1"
+  description: ""
+  operationId: "createUserSource"
+  consumes:
+    - "application/json"
+    - "multipart/form-data"
+  produces:
+    - "application/json"
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          $ref: "../schemas/user_source_schema.yaml#/schemas/fileInputObject"
+      application/json:
+        schema:
+          $ref: "../schemas/user_source_schema.yaml#/schemas/optimoveInputObject"
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  status:
+                    type: string
+                    default: "success"
+                  data:
+                    $ref: "../schemas/user_source_schema.yaml#/schemas/userSourceResponseObject"
+              - $ref: "../schemas/common_responses.yaml#/schemas/FailureResponse"

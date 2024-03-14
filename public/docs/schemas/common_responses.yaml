@@ -1,0 +1,29 @@
+schemas:
+  SuccessResponse:
+    type: object
+    properties:
+      status:
+        type: string
+        default: success
+      data:
+        type: object
+  SuccessResponseWithoutData:
+    type: "string"
+    default: ""
+  FailureResponse:
+    type: object
+    properties:
+      status:
+        type: string
+        default: error
+      errorCode:
+        type: string
+        description: error code
+        example: prewager_1001
+      message:
+        description: some user readable message
+        type: string
+        example: campaign not found
+      data:
+        description: optional data. For example, error validation description
+        type: object

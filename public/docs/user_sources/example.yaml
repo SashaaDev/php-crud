@@ -1,0 +1,36 @@
+post:
+  tags:
+    - "user-source"
+  summary: "Download file example"
+  description: ""
+  operationId: "downloadExampleFile"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/inputObject"
+  responses:
+    "200":
+      content:
+        application/octet-stream:
+          schema:
+            type: string
+            format: binary
+components:
+  schemas:
+    inputObject:
+      type: object
+      properties:
+        type:
+          description: "Example file type"
+          type: string
+          enum:
+            - "manual"
+            - "deposit"
+          example: "manual"
+          default: "manual"

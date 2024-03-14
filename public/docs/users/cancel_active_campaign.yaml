@@ -1,0 +1,24 @@
+post:
+  summary: cancel active user campaign
+  tags:
+    - user
+  operationId: cancelActiveCampaign
+  parameters:
+    - $ref: '../schemas/schemas.yaml#/components/parameters/UserId'
+  responses:
+    "200":
+      content:
+        application/json:
+          type: object
+          properties:
+            status:
+              type: string
+              default: "success"
+            data:
+              type: object
+              properties:
+                count:
+                  type: int32
+                  example: 1
+    default:
+      $ref: '../schemas/schemas.yaml#/components/responses/ErrorResponse'

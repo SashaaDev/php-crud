@@ -1,0 +1,118 @@
+post:
+  tags:
+    - "user"
+  summary: "Get user campaigns collection"
+  description: ""
+  operationId: "campaigns"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  parameters:
+    - name: "userId"
+      in: path
+      description: "User id"
+      required: true
+      type: integer
+      format: int32
+      example: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/inputObject"
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  status:
+                    type: string
+                    default: "success"
+                  data:
+                    type: object
+                    properties:
+                      totalCount:
+                        type: integer
+                        example: 10
+                      campaignUsers:
+                        type: array
+                        items:
+                          $ref: "../schemas/campaign_users_schema.yaml#/schemas/responseObjectShort"
+              - $ref: "../schemas/common_responses.yaml#/schemas/FailureResponse"
+components:
+  schemas:
+    inputObject:
+      type: object
+      required:
+        - page
+        - perPage
+      properties:
+        page:
+          description: "Page number"
+          type: integer
+          format: int32
+          example: 1
+        perPage:
+          description: "Show items per page"
+          type: integer
+          format: int32
+          example: 5
+        sortField:
+          type: string
+          enum:
+            - id
+            - campaignId
+            - campaignName
+            - status
+            - type
+            - bonusAmount
+            - updatedAt
+        sortOrder:
+          $ref: '../schemas/schemas.yaml#/components/schemas/SortOrder'
+        id:
+          description: "Campaign user id"
+          type: integer
+          format: int32
+          example: 1
+        campaignId:
+          description: "Campaign id"
+          type: integer
+          format: int32
+          example: 1
+        campaignName:
+          description: "Campaign name"
+          type: string
+          example: "campaign"
+        status:
+          description: "Filter statuses"
+          type: array
+          items:
+            $ref: "../schemas/schemas.yaml#/components/schemas/CampaignUserStatus"
+        type:
+          description: "Filter bonus types"
+          type: array
+          items:
+            type: string
+            enum:
+              - "prewager"
+        bonusAmountFrom:
+          description: "Filter bonus amount from"
+          type: integer
+          format: int32
+          example: 10
+        bonusAmountTo:
+          description: "Filter bonus amount to"
+          type: integer
+          format: int32
+          example: 10
+        updatedAtFrom:
+          $ref: "../schemas/schemas.yaml#/components/schemas/DateTimeProperty"
+          description: "Filter updated at from"
+        updatedAtTo:
+          $ref: "../schemas/schemas.yaml#/components/schemas/DateTimeProperty"
+          description: "Filter updated at to"

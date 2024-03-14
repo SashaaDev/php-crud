@@ -1,0 +1,23 @@
+post:
+  summary: get current active user campaign
+  tags:
+    - user
+  operationId: getActiveCampaign
+  parameters:
+    - $ref: '../schemas/schemas.yaml#/components/parameters/UserId'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            gameId:
+              type: integer
+              required: false
+              description: game for wagering
+  responses:
+    200:
+      $ref: '../schemas/schemas.yaml#/components/responses/ActiveCampaignUserItemResponse'
+    default:
+      $ref: '../schemas/schemas.yaml#/components/responses/ErrorResponse'

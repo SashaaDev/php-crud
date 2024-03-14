@@ -1,0 +1,60 @@
+post:
+  tags:
+    - "campaign"
+  summary: "Cancel campaign users by users ids"
+  description: ""
+  operationId: "bulkCancelUserCampaigns"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  parameters:
+    - name: id
+      in: path
+      description: "Campaign id"
+      required: true
+      type: integer
+      format: int32
+      default: 3
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - user_ids
+            - comment
+            - status
+            - staffId
+          properties:
+            user_ids:
+              description: "List of user ids to cancel"
+              type: array
+              items:
+                type: int32
+              example: [ 1,2,3 ]
+            comment:
+              $ref: '../schemas/schemas.yaml#/components/schemas/CommentProperty'
+            staffId:
+              $ref: '../schemas/schemas.yaml#/components/schemas/StaffIdProperty'
+            status:
+              $ref: '../schemas/schemas.yaml#/components/schemas/StatusForCancelProperty'
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  status:
+                    type: string
+                    default: "success"
+                  data:
+                    type: object
+                    properties:
+                      count:
+                        type: int32
+                        example: 1
+              - $ref: "../schemas/common_responses.yaml#/schemas/FailureResponse"

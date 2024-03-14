@@ -1,0 +1,157 @@
+schemas:
+  optimoveInputObject:
+    type: object
+    required:
+      - campaignId
+      - sourceType
+      - staffId
+    properties:
+      campaignId:
+        description: "Campaign Id"
+        type: integer
+        format: int32
+        example: 1
+        default: 1
+      sourceType:
+        description: "User source type"
+        type: string
+        enum:
+          - "file"
+          - "optimove"
+        default: "optimove"
+      staffId:
+        description: "staff id"
+        type: integer
+        format: int32
+        example: 1
+        default: 1
+      optimoveCampaignId:
+        description: "Optimove campaign id"
+        type: integer
+        format: int32
+        example: 1
+        default: 1
+  fileInputObject:
+    type: object
+    required:
+      - campaignId
+      - sourceType
+      - staffId
+      - file
+    properties:
+      campaignId:
+        description: "Campaign Id"
+        type: integer
+        format: int32
+        example: 1
+        default: 1
+      sourceType:
+        description: "User source type"
+        type: string
+        enum:
+          - "file"
+          - "optimove"
+        default: "file"
+      staffId:
+        description: "staff id"
+        type: integer
+        format: int32
+        example: 1
+        default: 1
+      optimoveCampaignId:
+        description: "Optimove campaign id"
+        type: integer
+        format: int32
+        example: 1
+        default: 1
+      file:
+        description: "User source file to upload"
+        type: file
+        example: "/docs/default_user_source.csv"
+  userSourceResponseObject:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 99
+      type:
+        type: string
+        enum:
+          - "file"
+          - "manual"
+          - "registration"
+        example: "file"
+      staffId:
+        type: integer
+        example: 1
+      sourceName:
+        type: string
+        example: "237151d1-552f-48b9-af16-b7b6de5d5140.csv"
+        nullable: true
+      optimoveCampaignId:
+        type: integer
+        example: 5555
+        nullable: true
+      settings:
+        type: object
+        properties:
+          countryFilterType:
+            type: string
+            enum:
+              - "include"
+              - "exclude"
+            example: "include"
+          countries:
+            type: array
+            items:
+              type: string
+              example: "Ukraine"
+      createdAt:
+        type: string
+        format: date-time
+        example: "2022-10-24 08:11:34"
+      updatedAt:
+        type: string
+        format: date-time
+        example: "2022-10-24 08:11:34"
+  userSourceItemResponse:
+    type: object
+    properties:
+      sourceId:
+        type: integer
+        example: 1
+      sourceType:
+        type: string
+        enum:
+          - file
+          - manual
+          - registration
+        example: file
+      sourceName:
+        type: string
+        example: "659fa274-0019-480f-883c-7bb966db6fc0.csv"
+      uploadedAt:
+        $ref: './schemas.yaml#/components/schemas/DateTimeProperty'
+      staffId:
+        type: integer
+        example: 1
+      totalBonusCount:
+        type: integer
+        example: 10
+      bonusStat:
+        type: array
+        items:
+          $ref: '#/schemas/bonusStat'
+  bonusStat:
+    type: object
+    properties:
+      currency:
+        type: string
+        example: "USD"
+      bonusCount:
+        type: integer
+        example: 10
+      bonusAmount:
+        type: number
+        format: float
+        example: 20.0

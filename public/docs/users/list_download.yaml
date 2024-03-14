@@ -1,0 +1,119 @@
+post:
+  tags:
+    - "user"
+  summary: "Download all users list"
+  description: ""
+  operationId: "allUsersDownload"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/inputObject"
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "../schemas/schemas.yaml#/components/responses/DownloadReportResponse"
+              - $ref: "../schemas/common_responses.yaml#/schemas/FailureResponse"
+components:
+  schemas:
+    inputObject:
+      type: object
+      required:
+        - staffId
+      properties:
+        staffId:
+          description: "Id of report creator"
+          type: integer
+          format: int32
+          example: 1
+        userId:
+          description: "Player Id"
+          type: integer
+          format: int32
+          example: 1
+        campaignUserId:
+          description: "Campaign user Id"
+          type: integer
+          format: int32
+          example: 1
+        campaignName:
+          description: "Campaign name"
+          type: string
+          example: "Campaign_1"
+        statuses:
+          description: "Filter statuses"
+          type: array
+          items:
+            type: string
+            enum:
+              - "potential"
+              - "proposed"
+              - "expired_potential"
+              - "expired_proposed"
+              - "wagering"
+              - "expired_wagering_period"
+              - "cancelled_by_manager"
+              - "cancelled_by_player"
+              - "completed"
+            example: "proposed"
+        type:
+          description: "Type"
+          type: array
+          items:
+            type: string
+            enum:
+              - "prewager"
+        bonusAmountFrom:
+          description: "Bonus amount from"
+          type: float
+          example: 10.5
+        bonusAmountTo:
+          description: "Bonus amount to"
+          type: float
+          example: 20.5
+        currencies:
+          description: "User campaign currency"
+          type: array
+          items:
+            type: string
+            example: "USD"
+        updatedAtFrom:
+          description: "Filter updated at from"
+          type: string
+          format: date-time
+          example: "2022-07-02 12:43:33"
+        updatedAtTo:
+          description: "Filter updated at to"
+          type: string
+          format: date-time
+          example: "2022-08-02 12:43:33"
+        sortField:
+          description: "Order by field name"
+          type: string
+          enum:
+            - "userId"
+            - "campaignUserId"
+            - "campaignName"
+            - "status"
+            - "type"
+            - "bonusAmount"
+            - "currency"
+            - "updatedAt"
+          example: "userId"
+        sortOrder:
+          description: "Order by direction"
+          type: string
+          enum:
+            - "desc"
+            - "asc"
+            - "DESC"
+            - "ASC"
+          example: "DESC"

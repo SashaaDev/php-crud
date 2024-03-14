@@ -1,0 +1,22 @@
+post:
+  summary: Select potential campaign
+  tags:
+    - public
+  operationId: publicSelectCampaign
+  parameters:
+    - $ref: '../schemas/schemas.yaml#/components/parameters/XUserId'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - bonusId
+          properties:
+            bonusId:
+              type: integer
+              example: 1
+  responses:
+    200:
+      $ref: '../schemas/schemas.yaml#/components/responses/SuccessResponse'

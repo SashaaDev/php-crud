@@ -1,0 +1,430 @@
+schemas:
+  activeResponseObject:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      userId:
+        type: integer
+        example: 444
+      status:
+        type: string
+        enum:
+          - "potential"
+          - "expired_potential"
+          - "proposed"
+          - "expired_proposed"
+          - "wagering"
+          - "expired_wagering_period"
+          - "cancelled_by_manager"
+          - "cancelled_by_player"
+          - "completed"
+        example: "proposed"
+      currency:
+        type: string
+        example: "USD"
+      bonusAmount:
+        type: number
+        format: float
+        example: 10
+      wageredAmount:
+        type: number
+        format: float
+        example: 5.3
+      amountForWager:
+        type: float
+        example: 100.20
+        description: amount need to wager
+      wageredPercent:
+        type: float
+        example: 50.4
+        description: how much money was wagered by user now in percent
+      comment:
+        type: string
+        example: "Test comment"
+      activationExpiredAt:
+        type: string
+        format: date-time
+        example: "2022-10-01 10:00:00"
+      activatedAt:
+        type: string
+        format: date-time
+        example: "2022-10-11 13:09:17"
+      deactivatedAt:
+        type: string
+        format: date-time
+        example: "2023-01-19 13:09:17"
+      createdAt:
+        type: string
+        format: date-time
+        example: "2022-10-11 13:09:17"
+      updatedAt:
+        type: string
+        format: date-time
+        example: "2022-10-01 10:00:00"
+      campaign:
+        $ref: "../schemas/campaign_schema.yaml#/schemas/campaignResponseObject"
+  responseObject:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      userId:
+        type: integer
+        example: 444
+      marks:
+        type: array
+        items:
+          type: string
+          enum:
+            - "is_bonus_hunter"
+            - "ludoman"
+            - "self_limited"
+          example: "is_bonus_hunter"
+      status:
+        type: string
+        enum:
+          - proposed
+          - expired_proposed
+          - wagering
+          - expired_wagering_period
+          - cancelled_by_manager
+          - cancelled_by_player
+          - completed
+        example: proposed
+      currency:
+        type: string
+        example: "USD"
+      bonusAmount:
+        type: number
+        format: float
+        example: 10
+        nullable: true
+      wageredAmount:
+        type: number
+        format: float
+        example: 5.3
+      amountForWager:
+        type: number
+        format: float
+        example: 26.0
+        nullable: true
+      wageredPercent:
+        type: number
+        format: float
+        example: 35.33
+      userSourceId:
+        type: integer
+        example: 1
+        nullable: true
+      activationExpiredAt:
+        type: string
+        format: date-time
+        example: "2022-10-01 10:00:00"
+      activatedAt:
+        type: string
+        format: date-time
+        example: "2022-10-11 13:09:17"
+        nullable: true
+      deactivatedAt:
+        type: string
+        format: date-time
+        example: "2023-01-19 13:09:17"
+        nullable: true
+      createdAt:
+        type: string
+        format: date-time
+        example: "2022-10-11 13:09:17"
+        nullable: true
+      updatedAt:
+        type: string
+        format: date-time
+        example: "2022-10-01 10:00:00"
+        nullable: true
+      comment:
+        type: string
+        example: "Test comment"
+        nullable: true
+      staffId:
+        type: number
+        format: int
+        example: 1
+      campaign:
+        $ref: "../schemas/campaign_schema.yaml#/schemas/campaignOutputObject"
+      userSource:
+        $ref: "../schemas/user_source_schema.yaml#/schemas/userSourceResponseObject"
+  responseObjectShort:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      userId:
+        type: integer
+        example: 444
+      marks:
+        type: array
+        items:
+          type: string
+          enum:
+            - "is_bonus_hunter"
+            - "ludoman"
+            - "self_limited"
+          example: "is_bonus_hunter"
+      status:
+        type: string
+        enum:
+          - "potential"
+          - "expired_potential"
+          - "proposed"
+          - "expired_proposed"
+          - "wagering"
+          - "expired_wagering_period"
+          - "cancelled_by_manager"
+          - "cancelled_by_player"
+          - "completed"
+        example: "proposed"
+      currency:
+        type: string
+        example: "USD"
+      bonusAmount:
+        type: number
+        format: float
+        example: 10
+      wageredAmount:
+        type: number
+        format: float
+        example: 5.3
+      amountForWager:
+        type: number
+        format: float
+        example: 26.0
+      wageredPercent:
+        type: number
+        format: float
+        example: 35.33
+      userSourceId:
+        type: integer
+        example: 1
+        nullable: true
+      proposedAt:
+        type: string
+        format: date-time
+        example: "2022-10-01 10:00:00"
+      activationExpiredAt:
+        type: string
+        format: date-time
+        example: "2022-10-01 10:00:00"
+      activatedAt:
+        type: string
+        format: date-time
+        example: "2022-10-11 13:09:17"
+        nullable: true
+      deactivatedAt:
+        type: string
+        format: date-time
+        example: "2023-01-19 13:09:17"
+        nullable: true
+      createdAt:
+        type: string
+        format: date-time
+        example: "2022-10-11 13:09:17"
+        nullable: true
+      updatedAt:
+        type: string
+        format: date-time
+        example: "2022-10-01 10:00:00"
+        nullable: true
+      comment:
+        type: string
+        example: "Test comment"
+        nullable: true
+      staffId:
+        type: number
+        format: int
+        example: 1
+      campaign:
+        $ref: "../schemas/campaign_schema.yaml#/schemas/campaignShortOutputObject"
+      userSource:
+        $ref: "../schemas/user_source_schema.yaml#/schemas/userSourceResponseObject"
+  listResponseObject:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 1
+      userId:
+        type: integer
+        example: 444
+      status:
+        type: string
+        enum:
+          - "potential"
+          - "expired_potential"
+          - "proposed"
+          - "expired_proposed"
+          - "wagering"
+          - "expired_wagering_period"
+          - "cancelled_by_manager"
+          - "cancelled_by_player"
+          - "completed"
+        example: "proposed"
+      marks:
+        type: array
+        items:
+          type: string
+          enum:
+            - "is_bonus_hunter"
+            - "ludoman"
+            - "self_limited"
+          example: "is_bonus_hunter"
+      currency:
+        type: string
+        example: "USD"
+      bonusAmount:
+        type: number
+        format: float
+        example: 10
+      wageredAmount:
+        type: number
+        format: float
+        example: 10.5
+      amountForWager:
+        type: float
+        example: 100.20
+        description: amount need to wager
+      wageredPercent:
+        type: float
+        example: 50.4
+        description: how much money was wagered by user now in percent
+      totalWageringAmount:
+        type: number
+        format: float
+        example: 20.5
+        deprecated: true
+      proposedAt:
+        type: string
+        format: date-time
+        example: "2022-10-01 10:00:00"
+      activationExpiredAt:
+        type: string
+        format: date-time
+        example: "2022-10-01 10:00:00"
+      activatedAt:
+        type: string
+        format: date-time
+        example: "2022-10-11 13:09:17"
+        nullable: true
+      deactivatedAt:
+        type: string
+        format: date-time
+        example: "2023-01-19 13:09:17"
+        nullable: true
+      createdAt:
+        type: string
+        format: date-time
+        example: "2022-10-11 13:09:17"
+        nullable: true
+      updatedAt:
+        type: string
+        format: date-time
+        example: "2022-10-01 10:00:00"
+        nullable: true
+      comment:
+        type: string
+        example: "Test comment"
+        nullable: true
+      sourceName:
+        type: string
+        example: "Test source"
+        nullable: true
+      staffId:
+        type: number
+        format: int
+        example: 1
+      campaign:
+        $ref: "../schemas/campaign_schema.yaml#/schemas/campaignShortOutputObject"
+      userSourceId:
+        type: integer
+        example: 1
+        nullable: true
+  listReportParamsObject:
+    type: object
+    properties:
+      campaignUserId:
+        description: "Campaign user Id"
+        type: integer
+        format: int32
+      userId:
+        description: "Player Id"
+        type: integer
+        format: int32
+      campaignName:
+        description: "Campaign name"
+        type: string
+      statuses:
+        description: "Filter statuses"
+        type: array
+        items:
+          type: string
+          enum:
+            - "potential"
+            - "proposed"
+            - "expired_potential"
+            - "expired_proposed"
+            - "wagering"
+            - "expired_wagering_period"
+            - "cancelled_by_manager"
+            - "cancelled_by_player"
+            - "completed"
+      types:
+        description: "Type"
+        type: array
+        items:
+          type: string
+          enum:
+            - "prewager"
+      currencies:
+        description: "User campaign currency"
+        type: array
+        items:
+          type: string
+          example: "USD"
+      bonusAmountFrom:
+        description: "Bonus amount from"
+        type: number
+        format: float
+      bonusAmountTo:
+        description: "Bonus amount to"
+        type: number
+        format: float
+      updatedAtFrom:
+        description: "Filter updated at from"
+        type: string
+        format: date-time
+      updatedAtTo:
+        description: "Filter updated at to"
+        type: string
+        format: date-time
+      sortField:
+        description: "Order by field name"
+        type: string
+        enum:
+          - "userId"
+          - "campaignUserId"
+          - "campaignName"
+          - "status"
+          - "type"
+          - "bonusAmount"
+          - "currency"
+          - "updatedAt"
+      sortOrder:
+        description: "Order by direction"
+        type: string
+        enum:
+          - "asc"
+          - "ASC"
+          - "desc"
+          - "DESC"

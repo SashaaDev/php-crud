@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  title: Title
+  description: Title
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:85/api'
+    description: local
+
+# securitySchemes:
+#   BearerToken:
+#     type: http
+#     scheme: bearer
+#     bearerFormat: JWT
+paths:
+
+  /languages:
+    get:
+      tags:
+        - Languages
+      summary: Get all languages
+      responses:
+        '200':
+          description: Successful displayed all languages
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    id:
+                      type: integer
+                      format: int32
+                    name:
+                      type: string
+                    country_code:
+                      type: string
+                example:
+                  - id: 1
+                    name: English
+                    country_code: EN
+                  - id: 2
+                    name: French
+                    country_code: FR
+                  - id: 3
+                    name: Ukrainian
+                    country_code: UA

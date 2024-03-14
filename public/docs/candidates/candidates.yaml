@@ -1,0 +1,374 @@
+openapi: 3.0.3
+info:
+  title: Candidates
+  description: Candidates
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:85/api'
+    description: local
+
+# securitySchemes:
+#   BearerToken:
+#     type: http
+#     scheme: bearer
+#     bearerFormat: JWT
+paths:
+
+  /users/{id}/candidates/draft:
+    get:
+      tags:
+        - Candidate Drafts
+      summary: Get candidate draft
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 551
+          required: true
+      responses:
+        '200':
+          description: Successful displayed draft
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    format: int32
+                    example: 1
+                  full_name:
+                    type: string
+                    example: sadsad sa dasd
+                  description:
+                    type: string
+                    example: sadsad sa dasd
+                  user_id:
+                    type: integer
+                    format: int32
+                    example: 551
+                  salary:
+                    type: integer
+                    format: int32
+                    example: 5000
+                  work_experience:
+                    type: integer
+                    format: int32
+                    example: 6
+                  position_name:
+                    type: string
+                    example: sadsad sa dasd
+                  contacts:
+                    type: string
+                    format: nullable
+                  accomplishments:
+                    type: string
+                    example: bdsvhfjgdjkfhjsvjk djkfdsjk fdsjkb fjksdbjk fbdsjk
+                  industry_experience:
+                    type: string
+                    format: nullable
+                  city_id:
+                    type: integer
+                    format: int32
+                    example: 1
+                  country_id:
+                    type: integer
+                    format: int32
+                    example: 1
+                  category_id:
+                    type: integer
+                    format: int32
+                    example: 1
+                  created_at:
+                    type: string
+                    format: nullable
+                  updated_at:
+                    type: string
+                    format: nullable
+                  candidate_employment_type_ids:
+                    type: string
+                    example: [1 2 3]
+                  candidate_language_ids:
+                    type: string
+                  candidate_skill_ids:
+                    type: string
+                    example: [skill1 skill2 skill3]
+                  candidate_license_ids:
+                    type: string
+                    example: [1 2]
+                  candidate_location_ids:
+                    type: string
+                    example: [1 3]
+
+    post:
+      tags:
+        - Candidate Drafts
+      summary: Create candidate draft
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 551
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                full_name:
+                  type: string
+                description:
+                  type: string
+                salary:
+                  type: integer
+                  format: int32
+                work_experience:
+                  type: integer
+                  format: int32
+                position_name:
+                  type: string
+                contacts:
+                  type: array
+                  example:
+                    - 'string'
+                    - 'string'
+                    - 'string'
+                    - 'string'
+                accomplishments:
+                  type: string
+                city_id:
+                  type: integer
+                  format: int32
+                country_id:
+                  type: integer
+                  format: int32
+                category_id:
+                  type: integer
+                  format: int32
+                languages_ids:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      language_id:
+                        type: integer
+                        format: int32
+                      language_level_id:
+                        type: integer
+                        format: int32
+                employment_types_ids:
+                  type: array
+                  items:
+                    type: object
+                locations_ids:
+                  type: array
+                  items:
+                    type: object
+                licenses_ids:
+                  type: array
+                  items:
+                    type: object
+                skills_names:
+                  type: array
+                  example:
+                    - 'string'
+                    - 'string'
+                    - 'string'
+                    - 'string'
+
+      responses:
+        '201':
+          description: Successful created draft
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  full_name:
+                    type: string
+                  description:
+                    type: string
+                  user_id:
+                    type: integer
+                    format: int32
+                  salary:
+                    type: integer
+                    format: int32
+                  work_experience:
+                    type: integer
+                    format: int32
+                  position_name:
+                    type: string
+                  city_id:
+                    type: integer
+                    format: int32
+                  accomplishments:
+                    type: string
+                  industry_experience:
+                    type: string
+                    format: nullable
+                  country_id:
+                    type: integer
+                    format: int32
+                  category_id:
+                    type: integer
+                    format: int32
+                  candidate_employment_type_ids:
+                    type: string
+                  candidate_language_ids:
+                    type: string
+                  candidate_location_ids:
+                    type: string
+                  candidate_license_ids:
+                    type: string
+                  candidate_skill_ids:
+                    type: string
+                  id:
+                    type: integer
+                    format: int32
+
+    put:
+      tags:
+        - Candidate Drafts
+      summary: Update candidate draft
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 551
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                full_name:
+                  type: string
+                description:
+                  type: string
+                salary:
+                  type: integer
+                  format: int32
+                work_experience:
+                  type: integer
+                  format: int32
+                position_name:
+                  type: string
+                contacts:
+                  type: array
+                  example:
+                    - 'string'
+                    - 'string'
+                    - 'string'
+                    - 'string'
+                accomplishments:
+                  type: string
+                city_id:
+                  type: integer
+                  format: int32
+                country_id:
+                  type: integer
+                  format: int32
+                category_id:
+                  type: integer
+                  format: int32
+                languages_ids:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      language_id:
+                        type: integer
+                        format: int32
+                      language_level_id:
+                        type: integer
+                        format: int32
+                employment_types_ids:
+                  type: array
+                  items:
+                    type: object
+                locations_ids:
+                  type: array
+                  items:
+                    type: object
+                licenses_ids:
+                  type: array
+                  items:
+                    type: object
+                skills_names:
+                  type: array
+                  example:
+                    - 'string'
+                    - 'string'
+                    - 'string'
+                    - 'string'
+
+      responses:
+        '200':
+          description: Successful updated draft
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  full_name:
+                    type: string
+                  description:
+                    type: string
+                  user_id:
+                    type: integer
+                    format: int32
+                  salary:
+                    type: integer
+                    format: int32
+                  work_experience:
+                    type: integer
+                    format: int32
+                  position_name:
+                    type: string
+                  city_id:
+                    type: integer
+                    format: int32
+                  accomplishments:
+                    type: string
+                  industry_experience:
+                    type: string
+                    format: nullable
+                  country_id:
+                    type: integer
+                    format: int32
+                  category_id:
+                    type: integer
+                    format: int32
+                  candidate_employment_type_ids:
+                    type: string
+                  candidate_language_ids:
+                    type: string
+                  candidate_location_ids:
+                    type: string
+                  candidate_license_ids:
+                    type: string
+                  candidate_skill_ids:
+                    type: string
+                  id:
+                    type: integer
+                    format: int32
+
+    delete:
+      tags:
+        - Candidate Drafts
+      summary: Delete candidate draft
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 551
+          required: true
+      responses:
+        '204':
+          description: Successful deleted draft
+

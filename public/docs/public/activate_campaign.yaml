@@ -1,0 +1,11 @@
+post:
+  summary: Activate campaign
+  tags:
+    - public
+  operationId: publicActivateCampaign
+  parameters:
+    - $ref: '../schemas/schemas.yaml#/components/parameters/CampaignId'
+    - $ref: '../schemas/schemas.yaml#/components/parameters/XUserId'
+  responses:
+    200:
+      $ref: '../schemas/schemas.yaml#/components/responses/SuccessResponse'

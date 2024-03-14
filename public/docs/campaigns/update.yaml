@@ -1,0 +1,38 @@
+post:
+  tags:
+    - "campaign"
+  summary: "Update campaign like put method"
+  description: ""
+  operationId: "updateCampaign"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  parameters:
+    - name: id
+      in: path
+      description: "Campaign id"
+      required: true
+      type: integer
+      format: int32
+      default: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/campaign_schema.yaml#/schemas/campaignUpdateInputObject"
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  status:
+                    type: string
+                    default: "success"
+                  data:
+                    $ref: "../schemas/campaign_schema.yaml#/schemas/campaignOutputObject"
+              - $ref: "../schemas/common_responses.yaml#/schemas/FailureResponse"

@@ -1,0 +1,13 @@
+schemas:
+  currencyResponseObject:
+    type: object
+    properties:
+      currency:
+        type: string
+        example: "USD"
+      maxDeposit:
+        type: float
+        example: 1000
+      minDeposit:
+        type: float
+        example: 100

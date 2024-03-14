@@ -1,0 +1,30 @@
+post:
+  tags:
+    - "campaign"
+  summary: "Get campaign by id"
+  description: ""
+  operationId: "getCampaign"
+  produces:
+    - "application/json"
+  parameters:
+    - name: "id"
+      in: path
+      description: "Campaign id"
+      required: true
+      type: integer
+      format: int32
+      default: 1
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  status:
+                    type: string
+                    default: "success"
+                  data:
+                    $ref: "../schemas/campaign_schema.yaml#/schemas/campaignOutputObject"
+              - $ref: "../schemas/common_responses.yaml#/schemas/FailureResponse"

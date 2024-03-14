@@ -1,0 +1,77 @@
+post:
+  tags:
+    - "campaign"
+  summary: "Get campaigns collection"
+  description: ""
+  operationId: "listCampaigns"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - page
+            - perPage
+          allOf:
+            - $ref: '../schemas/schemas.yaml#/components/schemas/MetaObject'
+          properties:
+            sortField:
+              type: string
+              enum:
+                - id
+                - name
+                - status
+                - startedAt
+                - endedAt
+                - staffId
+                - updatedAt
+            sortOrder:
+              $ref: '../schemas/schemas.yaml#/components/schemas/SortOrder'
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: First campaign
+            status:
+              $ref: '../schemas/schemas.yaml#/components/schemas/CampaignStatus'
+            startedAtFrom:
+              $ref: '../schemas/schemas.yaml#/components/schemas/DateTimeProperty'
+            startedAtTo:
+              $ref: '../schemas/schemas.yaml#/components/schemas/DateTimeProperty'
+            endedAtFrom:
+              $ref: '../schemas/schemas.yaml#/components/schemas/DateTimeProperty'
+            endedAtTo:
+              $ref: '../schemas/schemas.yaml#/components/schemas/DateTimeProperty'
+            staffId:
+              $ref: '../schemas/schemas.yaml#/components/schemas/StaffId'
+            updatedAtFrom:
+              $ref: '../schemas/schemas.yaml#/components/schemas/DateTimeProperty'
+            updatedAtTo:
+              $ref: '../schemas/schemas.yaml#/components/schemas/DateTimeProperty'
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  status:
+                    type: string
+                    default: "success"
+                  data:
+                    type: object
+                    properties:
+                      totalCount:
+                        $ref: "../schemas/schemas.yaml#/components/schemas/TotalCount"
+                      campaigns:
+                        type: array
+                        items:
+                            $ref: "../schemas/campaign_schema.yaml#/schemas/campaignOutputObject"
+              - $ref: "../schemas/common_responses.yaml#/schemas/FailureResponse"

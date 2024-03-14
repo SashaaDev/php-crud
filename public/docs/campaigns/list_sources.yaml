@@ -1,0 +1,98 @@
+post:
+  tags:
+    - "campaign"
+  summary: "Get user-source list stat data by campaign id"
+  description: ""
+  operationId: "listUserSources"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  parameters:
+    - name: id
+      in: path
+      description: "Campaign id"
+      required: true
+      type: integer
+      format: int32
+      example: 1
+      default: 1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - page
+            - perPage
+          allOf:
+            - $ref: '../schemas/schemas.yaml#/components/schemas/MetaObject'
+          properties:
+            sortField:
+              type: string
+              enum:
+                - sourceId
+                - sourceType
+                - sourceName
+                - bonusCount
+                - staffId
+                - uploadedAt
+            sortOrder:
+              $ref: '../schemas/schemas.yaml#/components/schemas/SortOrder'
+            sourceId:
+              type: integer
+              example: 1
+            sourceName:
+              type: string
+              example: manual
+            sourceType:
+              type: array
+              items:
+                type: string
+                enum:
+                  - file
+                  - manual
+            currency:
+              type: string
+              example: "USD"
+            bonusCount:
+              type: integer
+              example: 1
+            bonusAmountFrom:
+              type: number
+              format: float
+              example: 10
+            bonusAmountTo:
+              type: number
+              format: float
+              example: 10
+            staffId:
+              type: integer
+              example: 1
+            uploadedAtFrom:
+              $ref: '../schemas/schemas.yaml#/components/schemas/DateTimeProperty'
+            uploadedAtTo:
+              $ref: '../schemas/schemas.yaml#/components/schemas/DateTimeProperty'
+
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  status:
+                    type: string
+                    default: "success"
+                  data:
+                    type: object
+                    properties:
+                      totalCount:
+                        $ref: "../schemas/schemas.yaml#/components/schemas/TotalCount"
+                      userSources:
+                        type: array
+                        items:
+                          $ref: "../schemas/user_source_schema.yaml#/schemas/userSourceItemResponse"
+              - $ref: "../schemas/common_responses.yaml#/schemas/FailureResponse"

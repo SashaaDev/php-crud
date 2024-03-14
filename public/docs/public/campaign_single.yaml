@@ -1,0 +1,13 @@
+get:
+  summary: get user campaign
+  tags:
+    - public
+  operationId: getPublicCampaign
+  parameters:
+    - $ref: '../schemas/schemas.yaml#/components/parameters/BonusId'
+    - $ref: '../schemas/schemas.yaml#/components/parameters/XUserId'
+  responses:
+    200:
+      $ref: '../schemas/schemas.yaml#/components/responses/CampaignSinglePublicResponse'
+    default:
+      $ref: '../schemas/schemas.yaml#/components/responses/ErrorResponse'

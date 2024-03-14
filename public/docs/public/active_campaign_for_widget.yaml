@@ -1,0 +1,12 @@
+get:
+  summary: Wagering campaign with bonus amount data for widget
+  tags:
+    - public
+  operationId: publicActiveCampaign
+  parameters:
+    - $ref: '../schemas/schemas.yaml#/components/parameters/XUserId'
+  responses:
+    200:
+      $ref: '../schemas/schemas.yaml#/components/responses/CampaignAmountForWidgetResponse'
+    default:
+      $ref: '../schemas/schemas.yaml#/components/responses/ErrorResponse'

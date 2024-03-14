@@ -1,0 +1,18 @@
+get:
+  summary: get list of finished and canceled user campaigns
+  tags:
+    - public
+  operationId: PublicCampaignHistoryList
+  parameters:
+    - name: "currency"
+      in: query
+      description: "Currency for filtering"
+      required: false
+      type: string
+      example: "USD"
+    - $ref: '../schemas/schemas.yaml#/components/parameters/XUserId'
+  responses:
+    200:
+      $ref: '../schemas/schemas.yaml#/components/responses/CampaignHistoryListResponse'
+    default:
+      $ref: '../schemas/schemas.yaml#/components/responses/ErrorResponse'

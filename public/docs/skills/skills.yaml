@@ -1,0 +1,62 @@
+openapi: 3.0.3
+info:
+  title: Skills
+  description: System Info about Skills
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:85/api'
+    description: local
+
+# securitySchemes:
+#   BearerToken:
+#     type: http
+#     scheme: bearer
+#     bearerFormat: JWT
+paths:
+
+  /skills:
+    get:
+      parameters:
+          - in: query
+            name: keyword
+            required: false
+            schema:
+              type: string
+              example: skill1
+          - in: query
+            name: page
+            required: false
+            schema:
+              type: integer
+              example: 1
+              default: 1
+          - in: query
+            name: per_page
+            required: false
+            schema:
+              type: integer
+              example: 10
+              default: 15
+      tags:
+        - Skills
+      summary: Get all skills
+      responses:
+        '200':
+          description: Successful displayed all skills
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    id:
+                      type: integer
+                      format: int32
+                    name:
+                      type: string
+                example:
+                  - id: 1
+                    name: skill
+                  - id: 2
+                    name: skill1
+                  - id: 3
+                    name: skill2

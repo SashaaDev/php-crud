@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Language Levels
+  description: System Info about language levels
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:85/api'
+    description: local
+
+# securitySchemes:
+#   BearerToken:
+#     type: http
+#     scheme: bearer
+#     bearerFormat: JWT
+paths:
+
+  /language-levels:
+    get:
+      tags:
+        - Language Levels
+      summary: Get all language levels
+      responses:
+        '200':
+          description: Successful displayed all language levels
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    id:
+                      type: integer
+                      format: int32
+                    name:
+                      type: string
+                example:
+                  - id: 1
+                    name: B1
+                  - id: 2
+                    name: B2
+                  - id: 3
+                    name: A2

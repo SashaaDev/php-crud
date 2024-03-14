@@ -1,0 +1,592 @@
+schemas:
+  campaignCreateInputObject:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        description: "Campaign name"
+        type: string
+        default: "campaign_from_swagger #1"
+      startedAt:
+        description: "Campaign started at"
+        type: string
+        format: date-time
+        example: "2022-07-02 12:43:33"
+        default: "2022-07-02 12:43:33"
+      endedAt:
+        description: "Campaign ended at"
+        type: string
+        format: date-time
+        example: "2023-08-02 12:43:33"
+        default: "2023-08-02 12:43:33"
+      sourceType:
+        description: "Campaign users source type"
+        type: string
+        enum:
+          - "file"
+          - "optimove"
+        default: "file"
+      contentTemplate:
+        description: "Content template id"
+        type: string
+        example: "Content template example"
+      comment:
+        description: "Campaign comment"
+        type: string
+        example: "Comment for campaign"
+      bonusType:
+        description: "Campaign bonus type"
+        type: string
+        enum:
+          - "prewager"
+      offerCount:
+        description: "Campaign offer count"
+        type: integer
+        format: int32
+        example: 0
+        default: 0
+      isSportbook:
+        description: "Campaign is sportbook bet type"
+        type: boolean
+        example: true
+      isCasino:
+        description: "Campaign is casino bet type"
+        type: boolean
+        example: false
+      cantWagerAfterCampaignEnd:
+        description: "Set true if the time to complete wagering bonus conditions should also be limited by the campaign end date/time"
+        type: boolean
+        example: false
+      timeToActivate:
+        description: "Campaign time to activate in hours"
+        type: integer
+        format: int32
+        example: 10
+      timeToWager:
+        description: "Campaign time to wager in hours"
+        type: integer
+        format: int32
+        example: 10
+      sportsbookMinOdd:
+        description: "Campaign sportsbook min odd"
+        type: float
+        example: 10.00
+      countOfWagering:
+        description: "Campaign count of wagering property"
+        type: integer
+        example: 5
+      maxBonusProfit:
+        description: "Campaign max bonus profit"
+        type: integer
+        example: 900
+      isSingle:
+        description: "Campaign allow bets is-single-type"
+        type: boolean
+        example: true
+      isMultiple:
+        description: "Campaign allow bets is-multiple-type"
+        type: boolean
+        example: false
+      isSystem:
+        description: "Campaign allow bets is-system-type"
+        type: boolean
+        example: false
+      staffId:
+        description: "Staff id"
+        type: integer
+        format: int32
+        default: 1
+      triggerType:
+        description: "Campaign trigger type"
+        type: string
+        enum:
+          - "deposit"
+          - "registration_deposit"
+          - "manual"
+        example: "deposit"
+      bonusAmountType:
+        description: "Campaign bonus amount type"
+        type: string
+        enum:
+          - "percent"
+          - "fixed"
+        example: "percent"
+      percentOfDeposit:
+        description: "Campaign percent of deposit"
+        type: float
+        example: 5
+      currency:
+        type: array
+        items:
+          $ref: "../schemas/currency_schema.yaml#/schemas/currencyInputObject"
+      optimoveCampaignId:
+        description: "Campaign id from optimove system for user source"
+        type: integer
+        format: int32
+        default: 1
+      file:
+        description: "User source file (.csv or .xlsx)"
+        type: string
+        format: binary
+      countryFilterType:
+        type: string
+        enum:
+          - "include"
+          - "exclude"
+        example: "include"
+      countries:
+        type: array
+        items:
+          type: string
+          example: "Ukraine"
+  campaignUpdateInputObject:
+    type: object
+    required:
+      - name
+      - status
+      - bonusType
+      - contentTemplate
+    properties:
+      name:
+        description: "Campaign name"
+        type: string
+        default: "campaign_from_swagger #1"
+      startedAt:
+        description: "Campaign started at"
+        type: string
+        format: date-time
+        example: "2022-07-02 12:43:33"
+        default: "2022-07-02 12:43:33"
+      endedAt:
+        description: "Campaign ended at"
+        type: string
+        format: date-time
+        example: "2023-08-02 12:43:33"
+        default: "2023-08-02 12:43:33"
+      status:
+        description: "Campaign status"
+        type: string
+        enum:
+          - "draft"
+          - "ready_for_launch"
+          - "in_progress"
+          - "finished"
+          - "cancelled"
+        example: "draft"
+      contentTemplate:
+        description: "Content template id"
+        type: string
+        example: "Content template example"
+      comment:
+        description: "Campaign comment"
+        type: string
+        example: "Comment for campaign"
+      bonusType:
+        description: "Campaign bonus type"
+        type: string
+        enum:
+          - "prewager"
+      offerCount:
+        description: "Campaign offer count"
+        type: integer
+        format: int32
+        example: 0
+        default: 0
+      isSportbook:
+        description: "Campaign is sportbook bet type"
+        type: integer
+        enum:
+          - 0
+          - 1
+        example: 1
+      isCasino:
+        description: "Campaign is casino bet type"
+        type: integer
+        enum:
+          - 0
+          - 1
+        example: 0
+      cantWagerAfterCampaignEnd:
+        description: "Set true if the time to complete wagering bonus conditions should also be limited by the campaign end date/time"
+        type: boolean
+        example: false
+      timeToActivate:
+        description: "Campaign time to activate in hours"
+        type: integer
+        format: int32
+        example: 10
+      timeToWager:
+        description: "Campaign time to wager in hours"
+        type: integer
+        format: int32
+        example: 10
+      sportsbookMinOdd:
+        description: "Campaign sportsbook min odd"
+        type: float
+        example: 10.00
+      countOfWagering:
+        description: "Campaign count of wagering property"
+        type: integer
+        example: 5
+      maxBonusProfit:
+        description: "Campaign max bonus profit"
+        type: integer
+        example: 999
+      isSingle:
+        description: "Campaign allow bets is-single-type"
+        type: boolean
+        example: true
+      isMultiple:
+        description: "Campaign allow bets is-multiple-type"
+        type: integer
+        enum:
+          - 0
+          - 1
+        example: 1
+      isSystem:
+        description: "Campaign allow bets is-system-type"
+        type: integer
+        enum:
+          - 0
+          - 1
+        example: 1
+      staffId:
+        description: "Staff id"
+        type: integer
+        format: int32
+        default: 1
+      triggerType:
+        description: "Campaign trigger type"
+        type: string
+        enum:
+          - "deposit"
+          - "registration_deposit"
+          - "manual"
+        example: "deposit"
+      bonusAmountType:
+        description: "Campaign bonus amount type"
+        type: string
+        enum:
+          - "percent"
+          - "fixed"
+        example: "percent"
+      percentOfDeposit:
+        description: "Campaign percent of deposit"
+        type: float
+        example: 5
+      currency:
+        type: array
+        items:
+          $ref: "../schemas/currency_schema.yaml#/schemas/currencyInputObject"
+      countryFilterType:
+        type: string
+        enum:
+          - "include"
+          - "exclude"
+        example: "include"
+      countries:
+        type: array
+        items:
+          type: string
+          example: "Ukraine"
+  campaignResponseObject:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 55
+      name:
+        type: string
+        example: "campaign #18"
+      startedAt:
+        type: string
+        format: date-time
+        example: "2022-07-12 00:00:00"
+      endedAt:
+        type: string
+        format: date-time
+        example: "2022-09-17 00:00:00"
+      bonusType:
+        type: string
+        example: "prewager"
+      offerCount:
+        type: integer
+        example: 5
+      isSportbook:
+        type: boolean
+        example: true
+      isCasino:
+        type: boolean
+        example: false
+      timeToActivate:
+        type: integer
+        example: 10
+      timeToWager:
+        type: integer
+        example: 20
+      countOfWagering:
+        type: integer
+        example: 5
+      cantWagerAfterCampaignEnd:
+        description: "Set true if the time to complete wagering bonus conditions should also be limited by the campaign end date/time"
+        type: boolean
+        example: false
+      maxBonusProfit:
+        type: integer
+        example: 999
+      status:
+        type: string
+        enum:
+          - "draft"
+          - "ready_for_launch"
+          - "in_progress"
+          - "finished"
+          - "cancelled"
+        example: "draft"
+      contentTemplate:
+        description: "Content template id"
+        type: string
+        example: "content template"
+      comment:
+        type: string
+        example: "comment"
+      sportsbookMinOdd:
+        type: float
+        example: 2.00
+      isSingle:
+        type: boolean
+        example: false
+      isMultiple:
+        type: boolean
+        example: false
+      isSystem:
+        type: boolean
+        example: false
+      staffId:
+        type: integer
+        example: 1
+      createdAt:
+        type: string
+        format: date-time
+        example: '2022-10-14 13:04:48'
+        nullable: true
+      updatedAt:
+        type: string
+        format: date-time
+        example: '2022-10-14 13:04:48'
+        nullable: true
+      gameListSlug:
+        type: string
+        example: 'prewager-exclusions'
+      userSource:
+        type: array
+        items:
+          $ref: "../schemas/user_source_schema.yaml#/schemas/userSourceResponseObject"
+      currency:
+        type: array
+        items:
+          $ref: "../schemas/currency_schema.yaml#/schemas/currencyResponseObject"
+  campaignOutputObject:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 55
+      name:
+        type: string
+        example: "campaign #18"
+      startedAt:
+        type: string
+        format: date-time
+        example: "2022-07-12 00:00:00"
+      endedAt:
+        type: string
+        format: date-time
+        example: "2022-09-17 00:00:00"
+      bonusType:
+        type: string
+        example: "prewager"
+      offerCount:
+        type: integer
+        example: 5
+      isSportbook:
+        type: boolean
+        example: true
+      isCasino:
+        type: boolean
+        example: false
+      timeToActivate:
+        type: integer
+        example: 10
+      timeToWager:
+        type: integer
+        example: 20
+      countOfWagering:
+        type: integer
+        example: 5
+      cantWagerAfterCampaignEnd:
+        type: boolean
+        description: timeToWager more prior then end of campaign. So, if false - user can wager even campaign finished
+        example: false
+      maxBonusProfit:
+        type: integer
+        example: 999
+      status:
+        type: string
+        enum:
+          - "draft"
+          - "ready_for_launch"
+          - "in_progress"
+          - "finished"
+          - "cancelled"
+        example: "draft"
+      contentTemplate:
+        type: string
+        example: "content template"
+      comment:
+        type: string
+        example: "comment"
+      sportsbookMinOdd:
+        type: float
+        example: 2.00
+      isSingle:
+        type: boolean
+        example: false
+      isMultiple:
+        type: boolean
+        example: false
+      isSystem:
+        type: boolean
+        example: false
+      staffId:
+        type: integer
+        example: 1
+      createdAt:
+        type: string
+        format: date-time
+        example: "2022-10-24 08:11:34"
+      updatedAt:
+        type: string
+        format: date-time
+        example: "2022-10-24 08:11:34"
+      gameListSlug:
+        type: string
+        example: 'prewager-exclusions'
+      trigger:
+        type: object
+        nullable: true
+        properties:
+          type:
+            type: enum
+            enum:
+              - "deposit"
+              - "manual"
+              - "registration_deposit"
+            example: "deposit"
+          settings:
+            type: object
+            properties:
+              percentOfDeposit:
+                type: float
+                example: 5
+              bonusAmountType:
+                type: enum
+                enum:
+                  - "percent"
+                  - "fixed"
+              currencies:
+                type: array
+                items:
+                  $ref: "../schemas/campaign_trigger_schema.yaml#/schemas/currencyResponseObject"
+      userSource:
+        type: array
+        items:
+          $ref: "../schemas/user_source_schema.yaml#/schemas/userSourceResponseObject"
+      currency:
+        type: array
+        items:
+          $ref: "../schemas/currency_schema.yaml#/schemas/currencyResponseObject"
+  campaignShortOutputObject:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 55
+      name:
+        type: string
+        example: "campaign #18"
+      startedAt:
+        type: string
+        format: date-time
+        example: "2022-07-12 00:00:00"
+      endedAt:
+        type: string
+        format: date-time
+        example: "2022-09-17 00:00:00"
+      bonusType:
+        type: string
+        example: "prewager"
+      offerCount:
+        type: integer
+        example: 5
+      isSportbook:
+        type: boolean
+        example: true
+      isCasino:
+        type: boolean
+        example: false
+      timeToActivate:
+        type: integer
+        example: 10
+      timeToWager:
+        type: integer
+        example: 20
+      countOfWagering:
+        type: integer
+        example: 5
+      cantWagerAfterCampaignEnd:
+        type: boolean
+        description: timeToWager more prior then end of campaign. So, if false - user can wager even campaign finished
+        example: false
+      maxBonusProfit:
+        type: integer
+        example: 999
+      status:
+        type: string
+        enum:
+          - "draft"
+          - "ready_for_launch"
+          - "in_progress"
+          - "finished"
+          - "cancelled"
+        example: "draft"
+      contentTemplate:
+        type: string
+        example: "content template"
+      comment:
+        type: string
+        example: "comment"
+      sportsbookMinOdd:
+        type: float
+        example: 2.00
+      isSingle:
+        type: boolean
+        example: false
+      isMultiple:
+        type: boolean
+        example: false
+      isSystem:
+        type: boolean
+        example: false
+      staffId:
+        type: integer
+        example: 1
+      createdAt:
+        type: string
+        format: date-time
+        example: "2022-10-24 08:11:34"
+      updatedAt:
+        type: string
+        format: date-time
+        example: "2022-10-24 08:11:34"

@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Locations
+  description: System Info about locations
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:85/api'
+    description: local
+
+# securitySchemes:
+#   BearerToken:
+#     type: http
+#     scheme: bearer
+#     bearerFormat: JWT
+paths:
+
+  /locations:
+    get:
+      tags:
+        - Locations
+      summary: Get all locations
+      responses:
+        '200':
+          description: Successful displayed all locations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    id:
+                      type: integer
+                      format: int32
+                    name:
+                      type: string
+                example:
+                  - id: 1
+                    name: On-side
+                  - id: 2
+                    name: Remote
+                  - id: 3
+                    name: Hybrid

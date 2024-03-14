@@ -1,0 +1,18 @@
+get:
+  summary: List of user campaigns for deposit
+  tags:
+    - public
+  operationId: getDepositCampaignsList
+  parameters:
+    - name: "currency"
+      in: query
+      description: "Currency for filtering"
+      required: false
+      type: string
+      example: "USD"
+    - $ref: '../schemas/schemas.yaml#/components/parameters/XUserId'
+  responses:
+    200:
+      $ref: '../schemas/schemas.yaml#/components/responses/CampaignDepositResponse'
+    default:
+      $ref: '../schemas/schemas.yaml#/components/responses/ErrorResponse'

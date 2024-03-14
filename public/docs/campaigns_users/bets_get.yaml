@@ -1,0 +1,68 @@
+post:
+  tags:
+    - campaigns-users
+  summary: get bet history
+  operationId: userCampaignBetHistory
+  parameters:
+    - $ref: "../schemas/schemas.yaml#/components/parameters/CampaignUserId"
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - page
+            - perPage
+          allOf:
+            - $ref: '../schemas/schemas.yaml#/components/schemas/MetaObject'
+          properties:
+            sortField:
+              type: string
+              enum:
+                - id
+                - date
+                - betAmount
+                - includedInResult
+                - payout
+                - result
+                - source
+                - serviceType
+                - roundId
+            sortOrder:
+              $ref: '../schemas/schemas.yaml#/components/schemas/SortOrder'
+            betId:
+              type: integer
+              format: int64
+              nullable: true
+            dateFrom:
+              $ref: '../schemas/schemas.yaml#/components/schemas/DateTimeProperty'
+            dateTo:
+              $ref: '../schemas/schemas.yaml#/components/schemas/DateTimeProperty'
+            serviceType:
+              $ref: '../schemas/schemas.yaml#/components/schemas/BetSenderService'
+            betAmountFrom:
+              $ref: '../schemas/schemas.yaml#/components/schemas/FloatNullable'
+            betAmountTo:
+              $ref: '../schemas/schemas.yaml#/components/schemas/FloatNullable'
+            isIncludedInResult:
+              type: boolean
+              example: true
+            payoutFrom:
+              $ref: '../schemas/schemas.yaml#/components/schemas/FloatNullable'
+            payoutTo:
+              $ref: '../schemas/schemas.yaml#/components/schemas/FloatNullable'
+            result:
+              $ref: '../schemas/schemas.yaml#/components/schemas/TransactionStatus'
+            source:
+              $ref: '../schemas/schemas.yaml#/components/schemas/SourceOfMoney'
+            roundId:
+              type: integer
+              format: int64
+              nullable: true
+  responses:
+    200:
+      $ref: '../schemas/schemas.yaml#/components/responses/BetHistoryResponse'
+    default:
+      $ref: '../schemas/schemas.yaml#/components/responses/ErrorResponse'
+

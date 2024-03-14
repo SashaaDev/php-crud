@@ -1,0 +1,23 @@
+get:
+  summary: get counter of all proposed, wagered and potential bonuses for user
+  tags:
+    - public
+  operationId: countProposedWagering
+  parameters:
+    - $ref: '../schemas/schemas.yaml#/components/parameters/XUserId'
+  responses:
+    200:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  countBonuses:
+                    type: integer
+                    description: count of proposed and wagering bonuses
+                    example: 1
+    default:
+      $ref: '../schemas/schemas.yaml#/components/responses/ErrorResponse'

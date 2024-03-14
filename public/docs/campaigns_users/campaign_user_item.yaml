@@ -1,0 +1,22 @@
+post:
+  tags:
+    - "campaigns-users"
+  summary: "Details by id"
+  description: ""
+  operationId: "detailsCampaignUsers"
+  parameters:
+    - $ref: "../schemas/schemas.yaml#/components/parameters/CampaignUserId"
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  status:
+                    type: string
+                    default: "success"
+                  data:
+                    $ref: "../schemas/campaign_users_schema.yaml#/schemas/responseObjectShort"
+              - $ref: "../schemas/common_responses.yaml#/schemas/FailureResponse"

@@ -1,0 +1,68 @@
+post:
+  tags:
+    - "user-source"
+  summary: "Create user with bonus amount"
+  description: ""
+  operationId: "createUser"
+  consumes:
+    - "application/json"
+  produces:
+    - "application/json"
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/inputObject"
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: object
+                properties:
+                  status:
+                    type: string
+                    default: "success"
+                  data:
+                    $ref: "../schemas/campaign_users_schema.yaml#/schemas/responseObject"
+              - $ref: "../schemas/common_responses.yaml#/schemas/FailureResponse"
+components:
+  schemas:
+    inputObject:
+      type: object
+      required:
+        - userId
+        - campaignId
+        - staffId
+      properties:
+        userId:
+          description: "User Id"
+          type: integer
+          format: int32
+          example: 1
+          default: 1
+        campaignId:
+          description: "Campaign Id"
+          type: integer
+          format: int32
+          example: 1
+          default: 1
+        currency:
+          description: "Bonus currency"
+          type: string
+          maxLength: 6
+          example: "USD"
+          default: "USD"
+        bonusAmount:
+          description: "Bonus amount"
+          type: number
+          format: float
+          example: 1
+          default: 1
+        staffId:
+          description: "Id of user who created user"
+          type: number
+          format: int
+          example: 1

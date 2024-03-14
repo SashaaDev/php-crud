@@ -1,0 +1,232 @@
+openapi: 3.0.3
+info:
+  title: Notifications
+  description: Notifications
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:85/api'
+    description: local
+
+# securitySchemes:
+#   BearerToken:
+#     type: http
+#     scheme: bearer
+#     bearerFormat: JWT
+paths:
+
+  /users/{id}/notifications:
+    get:
+      tags:
+        - Notifications
+      summary: Get all notifications
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            example: 5
+          required: true
+        - in: query
+          name: read_status
+          schema:
+            type: string
+            enum:
+              - read
+              - unread
+          required: false
+      responses:
+        '200':
+          description: Successful displayed notification
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    user_id:
+                      type: integer
+                      format: int32
+                    type:
+                      type: string
+                    message:
+                      type: string
+                    read_at:
+                      type: string
+                      format: nullable
+  /notifications:
+    post:
+      tags:
+        - Notifications
+      summary: Create notification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                user_id:
+                  type: integer
+                  format: int32
+                type:
+                  type: string
+                message:
+                  type: string
+
+      responses:
+        '201':
+          description: Successful created notifications
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                    format: int32
+                  type:
+                    type: string
+                  message:
+                    type: string
+                  id:
+                    type: string
+
+  /notifications/{notification_id}:
+    put:
+      tags:
+        - Notifications
+      summary: Update notification
+      parameters:
+        - in: path
+          name: notification_id
+          schema:
+            type: integer
+            example: 5
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                user_id:
+                  type: integer
+                  format: int32
+                type:
+                  type: string
+                message:
+                  type: string
+
+      responses:
+        '200':
+          description: Successful updated notification
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                    format: int32
+                  type:
+                    type: string
+                  message:
+                    type: string
+                  id:
+                    type: string
+    delete:
+      tags:
+        - Notifications
+      summary: Delete notification
+      parameters:
+        - in: path
+          name: notification_id
+          schema:
+            type: integer
+            example: 5
+          required: true
+      responses:
+        '204':
+          description: Successful deleted notification
+
+  /users/{user_id}/notifications/{notification_id}:
+    get:
+      tags:
+        - Notifications
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: integer
+            example: 554
+          required: true
+        - in: path
+          name: notification_id
+          schema:
+            type: integer
+            example: 5
+          required: true
+      summary: Get notification
+      responses:
+        '200':
+          description: Successful displayed notification
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: integer
+                    format: int32
+                  type:
+                    type: string
+                  message:
+                    type: string
+                  id:
+                    type: string
+
+
+  /users/{user_id}/notifications/read:
+    patch:
+      tags:
+        - Notifications
+      summary: Read notification
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: integer
+            example: 554
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                notificationsIds:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Successful displayed notification
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    user_id:
+                      type: integer
+                      format: int32
+                    type:
+                      type: string
+                    message:
+                      type: string
+                    read_at:
+                      type: string
+                      format: date
+

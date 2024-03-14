@@ -1,0 +1,70 @@
+schemas:
+  currencyInputObject:
+    type: object
+    required:
+      - currency
+      - bonusAmount
+      - isActive
+    properties:
+      currency:
+        type: string
+        example: "USD"
+      bonusAmount:
+        type: float
+        example: 245.8
+      casinoMinBetAmount:
+        type: float
+        example: 44.3
+      casinoMaxBetAmount:
+        type: float
+        example: 100.3
+      sportsbookMinBetAmount:
+        type: float
+        example: 10
+      sportsbookMaxBetAmount:
+        type: float
+        example: 100
+      depositMinAmount:
+        type: float
+        example: 10
+      depositMaxAmount:
+        type: float
+        example: 1000
+      isActive:
+        type: boolean
+        example: true
+  currencyResponseObject:
+    type: object
+    properties:
+      currency:
+        type: string
+        example: "USD"
+      bonusAmount:
+        type: float
+        example: 245.8
+      casinoMinBetAmount:
+        type: float
+        example: 44.3
+      casinoMaxBetAmount:
+        type: float
+        example: 100.3
+      sportsbookMinBetAmount:
+        type: float
+        example: 10
+      sportsbookMaxBetAmount:
+        type: float
+        example: 100
+      isActive:
+        type: boolean
+        example: true
+      deactivatedAt:
+        type: string
+        example: "2022-12-08 14:12:11"
+      createdAt:
+        type: string
+        example: "2022-12-08 14:12:11"
+        nullable: true
+      updatedAt:
+        type: string
+        example: "2022-12-08 14:12:11"
+        nullable: true

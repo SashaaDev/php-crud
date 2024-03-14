@@ -1,0 +1,194 @@
+openapi: 3.0.3
+info:
+  title: Public Configurations
+  description: For fast access to system info
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:85/api'
+    description: local
+
+# securitySchemes:
+#   BearerToken:
+#     type: http
+#     scheme: bearer
+#     bearerFormat: JWT
+paths:
+  /public-configurations:
+    get:
+      summary: Get public configurations
+      operationId: getPublicConfigurations
+      parameters:
+        - name: employment_type_get_by_id
+          in: query
+          description: ID of the employment type (for employment_type_get_by_id)
+          schema:
+            type: integer
+        - name: location_get_by_id
+          in: query
+          description: ID of the location (for location_get_by_id)
+          schema:
+            type: integer
+        - name: category_get_by_id
+          in: query
+          description: ID of the category (for category_get_by_id)
+          schema:
+            type: integer
+        - name: language_level_by_id
+          in: query
+          description: ID of the language level (for language_level_by_id)
+          schema:
+            type: integer
+        - name: language_by_id
+          in: query
+          description: ID of the language (for language_by_id)
+          schema:
+            type: integer
+        - name: term_by_id
+          in: query
+          description: ID of the term (for term_by_id)
+          schema:
+            type: integer
+        - name: license_by_id
+          in: query
+          description: ID of the license (for license_by_id)
+          schema:
+            type: integer
+        - name: company_type_by_id
+          in: query
+          description: ID of the company type (for company_type_by_id)
+          schema:
+            type: integer
+        - name: country_get_by_id
+          in: query
+          description: ID of the country (for country_get_by_id)
+          schema:
+            type: integer
+        - name: city_get_by_id
+          in: query
+          description: ID of the city (for city_get_by_id)
+          schema:
+            type: integer
+        - name: city_get_by_country_id
+          in: query
+          description: ID of the country for city filtering (for city_get_by_country_id)
+          schema:
+            type: integer
+        - name: employment_type_all
+          in: query
+          description: Retrieve all employment types
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+        - name: location_all
+          in: query
+          description: Retrieve all locations
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+        - name: category_all
+          in: query
+          description: Retrieve all categories
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+        - name: language_level_all
+          in: query
+          description: Retrieve all language levels
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+        - name: language_all
+          in: query
+          description: Retrieve all languages
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+        - name: term_all
+          in: query
+          description: Retrieve all terms
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+        - name: license_all
+          in: query
+          description: Retrieve all licenses
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+        - name: company_type_all
+          in: query
+          description: Retrieve all company types
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+        - name: country_all
+          in: query
+          description: Retrieve all countries
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+        - name: city_all
+          in: query
+          description: Retrieve all cities
+          schema:
+            type: integer
+            enum:
+              - 0
+              - 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  language_level_by_id:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: int32
+                      name:
+                        type: string
+                  language_all:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          format: int32
+                        name:
+                          type: string
+                        country_code:
+                          type: string
+                  location_all:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          format: int32
+                        name:
+                          type: string
+

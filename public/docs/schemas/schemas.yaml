@@ -1,0 +1,743 @@
+components:
+  parameters:
+    GameId:
+      name: gameId
+      in: path
+      required: true
+      schema:
+        type: integer
+    GamePoolId:
+      name: id
+      in: path
+      description: Game pool id
+      required: true
+      type: integer
+      format: int32
+      default: 3
+    UserId:
+      name: userId
+      in: path
+      required: true
+      schema:
+        type: integer
+    CampaignId:
+      name: campaignId
+      in: path
+      required: true
+      schema:
+        type: integer
+    BonusId:
+      name: bonusId
+      in: path
+      required: true
+      schema:
+        type: integer
+    CampaignUserId:
+      name: campaignUserId
+      in: path
+      type: integer
+      description: user campaign id
+      required: true
+    XUserId:
+      name: "X-User-Id"
+      in: header
+      description: "User Id"
+      required: true
+      type: integer
+      example: 444
+  schemas:
+    CampaignPublic:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 12
+          deprecated: true
+        campaignId:
+          type: integer
+          example: 12
+        bonusId:
+          type: integer
+          example: 12
+        campaignName:
+          type: string
+          example: First registration bonus
+        name:
+          type: string
+          example: First registration bonus
+          deprecated: true
+        type:
+          type: array
+          items:
+            type: string
+            enum:
+              - casino
+              - sportsbook
+        sportsbookType:
+          type: array
+          items:
+            type: string
+            enum:
+              - single
+              - multiple
+              - system
+          nullable: true
+          description: just, when type = sportsbook
+        offerCount:
+          type: integer
+          example: 1
+          description: how much time user can activate again company (when it was deactivated once - he can not activate it again)
+        wagerMultiplier:
+          type: integer
+          example: 10
+          description: multiplier, how much money user must wager for complete company
+          nullable: true
+        wagered:
+          type: float
+          example: 70.5
+          description: how much money was wagered by user now
+          nullable: true
+          deprecated: true
+        wageredAmount:
+          type: float
+          example: 70.5
+          description: how much money was wagered by user now
+          nullable: true
+        amountForWager:
+          type: float
+          example: 100.20
+          description: amount need to wager
+        wageredPercent:
+          type: float
+          example: 50.4
+          description: how much money was wagered by user now in percent
+        sportsbookMinOdd:
+          type: number
+          example: 20.75
+          description: minimal coefficient for sportsbook bets
+        timeToActivate:
+          type: integer
+          example: 10800
+          description: max activation time delay (in hours) between current time and campaign start time
+        timeToWager:
+          type: integer
+          example: 70000
+          description: time for wagering (from activated time) in hours
+        timeToActivateDaysHours:
+          type: string
+          example: "1:6"
+          description: max activation time delay (in days and hours) between current time and campaign start time
+        timeToWagerDaysHours:
+          type: string
+          example: "0:10"
+          description: time for wagering (from activated time) in days and hours
+        activatedAt:
+          description: when was activated by user
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/DateTimePublicFormatProperty'
+        deactivatedAt:
+          description: when was deactivated by user
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/DateTimePublicFormatProperty'
+        startedAt:
+          description: campaign start time
+          allOf:
+            - $ref: '#/components/schemas/DateTimePublicFormatProperty'
+        endedAt:
+          description: campaign end time
+          allOf:
+            - $ref: '#/components/schemas/DateTimePublicFormatProperty'
+        updatedAt:
+          description: bonus last update time
+          allOf:
+            - $ref: '#/components/schemas/DateTimePublicFormatProperty'
+        bonusType:
+          description: "Campaign bonus type"
+          type: string
+          enum:
+            - "prewager"
+        bonusAmount:
+          type: float
+          example: 10.5
+          description: bonus amount
+        wageringAmount:
+          type: integer
+          example: 10
+          description: amount of wagering
+          deprecated: true
+        maxBonusProfit:
+          type: integer
+          example: 10
+          description: max bonus profit
+        multiplierMaxBonusProfit:
+          type: float
+          example: 2.5
+          description: multiplier max bonus profit
+        bonusProposedDate:
+          description: date of bonus proposal to user
+          allOf:
+            - $ref: '#/components/schemas/DateTimePublicFormatProperty'
+        cantWagerAfterCampaignEnd:
+          type: boolean
+          example: false
+          description: timeToWager more prior then end of campaign. So, if false - user can wager even campaign finished
+        currency:
+          $ref: '#/components/schemas/CurrencyPublic'
+        contentTemplate:
+          description: "Content template id"
+          type: string
+          example: "Content template example"
+        activatedAtTimestamp:
+          type: integer
+          example: 1679315587
+          description: activated at in timestamp form
+        deactivatedAtTimestamp:
+          type: integer
+          example: 1679315587
+          description: deactivated at in timestamp form
+        startedAtTimestamp:
+          type: integer
+          example: 1679315587
+          description: started at in timestamp form
+        endedAtTimestamp:
+          type: integer
+          example: 1679315587
+          description: ended at in timestamp form
+        updatedAtTimestamp:
+          type: integer
+          example: 1679315587
+          description: updated at in timestamp form
+        bonusProposedTimestamp:
+          type: integer
+          example: 1679315587
+          description: bonus proposed date in timestamp form
+        activationExpiredAtTimestamp:
+          type: integer
+          example: 1679315587
+          description: activation expired at date in timestamp form
+        wageringExpiredAtTimestamp:
+          type: integer
+          example: 1679315587
+          description: wagering expired at date in timestamp form
+        triggerType:
+          description: "Campaign trigger type"
+          type: string
+          enum:
+            - "deposit"
+            - "registration_deposit"
+            - "manual"
+          example: "deposit"
+        triggerSettings:
+          type: object
+          properties:
+            percentOfDeposit:
+              type: float
+              example: 5
+            bonusAmountType:
+              type: enum
+              enum:
+                - "percent"
+                - "fixed"
+            currencies:
+              type: array
+              items:
+                $ref: "../schemas/campaign_trigger_schema.yaml#/schemas/currencyResponseObject"
+        isSelectedDeposit:
+          type: boolean
+          example: false
+          description: shows if user campaign is selected fo deposit
+    CampaignPublicForList:
+      allOf:
+        - $ref: '#/components/schemas/CampaignPublic'
+        - type: object
+          properties:
+            status:
+              $ref: '#/components/schemas/AvailableCampaignStatus'
+    CampaignPublicForDeposit:
+      allOf:
+        - $ref: '#/components/schemas/CampaignPublic'
+        - type: object
+          properties:
+            status:
+              $ref: '#/components/schemas/DepositCampaignStatus'
+    CampaignPublicForHistory:
+      allOf:
+        - $ref: '#/components/schemas/CampaignPublic'
+        - type: object
+          properties:
+            status:
+              $ref: '#/components/schemas/HistoryCampaignStatus'
+    CampaignPublicSingle:
+      allOf:
+        - $ref: '#/components/schemas/CampaignPublic'
+        - type: object
+          properties:
+            status:
+              $ref: '#/components/schemas/SingleCampaignStatus'
+    Currency:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        currency:
+          type: string
+          example: UAH
+        bonusAmount:
+          type: number
+          example: 100
+          description: which amount will be sent to user bonus wallet
+        casinoMinBetAmount:
+          type: number
+          example: 5
+          nullable: true
+          description: min casino bet
+        casinoMaxBetAmount:
+          type: number
+          example: 200
+          nullable: true
+          description: max casino bet
+        sportsbookMinBetAmount:
+          type: number
+          example: 5
+          nullable: true
+          description: min sportsbook bet
+        sportsbookMaxBetAmount:
+          type: number
+          example: 5
+          nullable: true
+          description: max sportsbook bet
+        createdAt:
+          type: string
+          format: date-time
+          example: '2022-10-14 13:04:48'
+          nullable: true
+        updatedAt:
+          type: string
+          format: date-time
+          example: '2022-10-14 13:04:48'
+          nullable: true
+    CurrencyPublic:
+      type: object
+      properties:
+        currency:
+          type: string
+          example: UAH
+        casinoMinBetAmount:
+          type: number
+          example: 5
+          nullable: true
+          description: min casino bet
+        casinoMaxBetAmount:
+          type: number
+          example: 200
+          nullable: true
+          description: max casino bet
+        sportsbookMinBetAmount:
+          type: number
+          example: 5
+          nullable: true
+          description: min sportsbook bet
+        sportsbookMaxBetAmount:
+          type: number
+          example: 5
+          nullable: true
+          description: max sportsbook bet
+    DateTimeProperty:
+      type: string
+      format: date-time
+      example: '2022-10-14 13:04:48'
+    DateTimePublicFormatProperty:
+      type: string
+      format: date-time
+      example: '14.10.2022 13:04:48'
+    CommentProperty:
+      description: "comment for action"
+      type: string
+      example: "comment test"
+    StaffIdProperty:
+      description: "id of staff member who made action"
+      type: integer
+      format: int32
+      example: 1
+    StatusForCancelProperty:
+      type: array
+      items:
+        type: string
+        enum:
+          - "potential"
+          - "proposed"
+          - "wagering"
+      description: "status of bonus to be cancelled"
+      example: [ "potential", "proposed", "wagering" ]
+    DepositCampaignStatus:
+      type: string
+      enum:
+        - potential
+    AvailableCampaignStatus:
+      type: string
+      enum:
+        - wagering
+        - proposed
+        - potential
+    HistoryCampaignStatus:
+      type: string
+      enum:
+        - finished
+        - cancelled
+        - expired_wagering_period
+        - cancelled_by_player
+        - completed
+        - expired_proposed
+        - expired_potential
+    SingleCampaignStatus:
+      type: string
+      enum:
+        - finished
+        - cancelled
+        - wagering
+        - proposed
+        - expired_wagering_period
+        - cancelled_by_player
+        - completed
+        - expired_proposed
+        - potential
+        - expired_potential
+    TransactionStatus:
+      type: string
+      enum:
+        - lose
+        - win
+        - refunded
+        - undefined
+    CampaignStatus:
+      type: string
+      enum:
+        - draft
+        - ready_for_launch
+        - in_progress
+        - finished
+        - cancelled
+      example: "draft"
+    CampaignUserStatus:
+      type: string
+      enum:
+        - potential
+        - expired_potential
+        - proposed
+        - wagering
+        - expired_proposed
+        - expired_wagering_period
+        - cancelled_by_manager
+        - cancelled_by_player
+        - completed
+      example: "proposed"
+    StaffId:
+      type: integer
+      format: int32
+      example: 1
+      description: id of a staff member who last updated entity
+    BetSenderService:
+      type: string
+      example: casino
+      description: sender service of bet
+      enum:
+        - casino
+        - sportsbook
+    SourceOfMoney:
+      type: string
+      example: Bonus
+      description: type of wallet for transaction
+      enum:
+        - real
+        - bonus
+    ExclusionReason:
+      type: string
+      example: The 9.0 is less than 9.1 in the Bonus template setting
+      description: Reason why bet not included
+    FloatItem:
+      type: number
+      format: float
+      nullable: true
+      example: 100
+    FloatNullable:
+      allOf:
+        - $ref: '#/components/schemas/FloatItem'
+      nullable: true
+    NumberFilter:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/FloatNullable'
+        to:
+          $ref: '#/components/schemas/FloatNullable'
+    DateFilter:
+      type: object
+      properties:
+        from:
+          allOf:
+            - $ref: '../schemas/schemas.yaml#/components/schemas/DateTimeProperty'
+          nullable: true
+        to:
+          allOf:
+            - $ref: '../schemas/schemas.yaml#/components/schemas/DateTimeProperty'
+          nullable: true
+    MetaObject:
+      type: object
+      properties:
+        page:
+          description: "Page number"
+          type: integer
+          format: int32
+          example: 1
+        perPage:
+          description: "Show items per page"
+          type: integer
+          format: int32
+          example: 5
+    SortOrder:
+      type: string
+      enum:
+        - asc
+        - desc
+    GameId:
+      required: true
+      type: integer
+      example: 1
+    TotalCount:
+      type: integer
+      example: 1
+  responses:
+    SuccessResponse:
+      description: Success Response
+      content:
+        application/json:
+          schema:
+            $ref: './common_responses.yaml#/schemas/SuccessResponse'
+    ErrorResponse:
+      description: Error response
+      content:
+        application/json:
+          schema:
+            $ref: './common_responses.yaml#/schemas/FailureResponse'
+    ActiveCampaignUserItemResponse:
+      description: single user-campaign response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: './campaign_users_schema.yaml#/schemas/activeResponseObject'
+            allOf:
+              - $ref: './common_responses.yaml#/schemas/SuccessResponse'
+    CampaignUserItemResponse:
+      description: single user-campaign response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: './campaign_users_schema.yaml#/schemas/responseObject'
+            allOf:
+              - $ref: './common_responses.yaml#/schemas/SuccessResponse'
+    CampaignListResponse:
+      description: list of active campaigns for user
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  totalCount:
+                    $ref: '#/components/schemas/TotalCount'
+                  campaigns:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CampaignPublicForList'
+            allOf:
+              - $ref: './common_responses.yaml#/schemas/SuccessResponse'
+    CampaignDepositResponse:
+      description: list of potential campaigns for user
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  totalCount:
+                    $ref: '#/components/schemas/TotalCount'
+                  campaigns:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CampaignPublicForDeposit'
+            allOf:
+              - $ref: './common_responses.yaml#/schemas/SuccessResponse'
+    CampaignSinglePublicResponse:
+      description: get campaign for user
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  campaign:
+                    $ref: '#/components/schemas/CampaignPublicSingle'
+            allOf:
+              - $ref: './common_responses.yaml#/schemas/SuccessResponse'
+    CampaignHistoryListResponse:
+      description: list of not active campaigns for user
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  totalCount:
+                    $ref: '#/components/schemas/TotalCount'
+                  campaigns:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CampaignPublicForHistory'
+            allOf:
+              - $ref: './common_responses.yaml#/schemas/SuccessResponse'
+    CampaignAmountForWidgetResponse:
+      description: campaignUser amount data for widget
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: './common_responses.yaml#/schemas/SuccessResponse'
+              - type: object
+                properties:
+                  data:
+                    oneOf:
+                      - type: object
+                        properties:
+                          campaignId:
+                            type: integer
+                            example: 1
+                          bonusId:
+                            type: integer
+                            example: 1
+                          campaignName:
+                            type: string
+                            example: "Some campaign name"
+                          contentTemplate:
+                            description: "Content template id"
+                            type: string
+                            example: "Content template example"
+                          campaignUserId:
+                            type: integer
+                            example: 1
+                          wageredAmount:
+                            type: number
+                            format: float
+                            example: 10
+                          amountForWager:
+                            type: number
+                            format: float
+                            example: 100
+                          wageredPercent:
+                            type: integer
+                            example: 10
+                          currency:
+                            type: string
+                            example: "USD"
+                      - type: object
+                        example: { }
+    BetHistoryResponse:
+      description: list of bonus bet history
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  totalCount:
+                    $ref: '#/components/schemas/TotalCount'
+                  history:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          format: int64
+                        createdAt:
+                          $ref: '#/components/schemas/DateTimeProperty'
+                        serviceType:
+                          $ref: '#/components/schemas/BetSenderService'
+                        betAmount:
+                          $ref: '#/components/schemas/FloatItem'
+                        includedInResult:
+                          $ref: '#/components/schemas/FloatNullable'
+                        payout:
+                          allOf:
+                            - $ref: '#/components/schemas/FloatItem'
+                          description: payout of bet (or null on lose)
+                        result:
+                          $ref: '#/components/schemas/TransactionStatus'
+                        source:
+                          $ref: '#/components/schemas/SourceOfMoney'
+                        roundId:
+                          type: integer
+                          format: int64
+                        exclusionReason:
+                          $ref: '#/components/schemas/ExclusionReason'
+            allOf:
+              - $ref: './common_responses.yaml#/schemas/SuccessResponse'
+    DownloadReportResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            report:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                staffId:
+                  type: integer
+                  example: 1
+                reportUrl:
+                  type: string
+                  example: 'download.com'
+                  nullable: true
+                params:
+                  description: "Object with report query filtering params"
+                  oneOf:
+                    - $ref: "../schemas/campaign_users_schema.yaml#/schemas/listReportParamsObject"
+                status:
+                  type: string
+                  enum:
+                    - pending
+                    - ready
+                    - error
+                createdAt:
+                  $ref: '#/components/schemas/DateTimeProperty'
+                updatedAt:
+                  $ref: '#/components/schemas/DateTimeProperty'
+      allOf:
+        - $ref: './common_responses.yaml#/schemas/SuccessResponse'
+  securitySchemes:
+    XUserId:
+      type: apiKey
+      in: header
+      name: X-User-Id
+      description: 'All public methods must include `X-User-Id` header with current user id or null'
