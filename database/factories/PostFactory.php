@@ -24,11 +24,10 @@ class PostFactory extends Factory
   public function definition(): array
   {
     return [
-      'id'=> fake()->uuid(),
-      'title' => fake()->title(),
-      'description' => fake()->description(),
-      'created_at' => now(),
-      'updated_at' => now(),
+        'title' => $this->faker->title(),
+        'description' => $this->faker->sentence(),
+        'created_at' => now(),
+        'updated_at' => now(),
     ];
   }
 
