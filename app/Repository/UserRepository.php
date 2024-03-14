@@ -32,7 +32,7 @@ class UserRepository
     return $user->toArray();
   }
 
-  public function update(array $data, int|string $id)
+  public function update(array $data, int|string $id):array
   {
     $user = User::find($id);
     if (!$user) {

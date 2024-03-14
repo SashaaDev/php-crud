@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Exceptions\ForbiddenException;
 use App\Repository\UserRepository;
+use Exception;
 
 class UserService
 {
@@ -28,8 +30,15 @@ class UserService
     return $this->userRepository->create($data);
   }
 
-  public function updateUser(array $data,string|int $id)
+  public function updateUser(array $data, string|int $id)
   {
+    if (auth()->user() === null) {
+      throw new ForbiddenException('Forbidden.');
+    }
+    $authUser = auth()->user();
+    if ($authUser->id != $id) {
+      throw new ForbiddenException('Forbidden.');
+    }
     return $this->userRepository->update($data, $id);
   }
 
@@ -37,7 +46,7 @@ class UserService
   {
     return $this->userRepository->delete($id);
   }
-  
+
   public function deleteAllUsers()
   {
     return $this->userRepository->deleteAll();

@@ -99,9 +99,10 @@ class AuthService
   //send hash
   public function hashUpdate(array $user): array
   {
+    // dd(gettype($user));
     $hash = $this->hashWrapperService->hashUpdate($user);
     $user['hash'] = $hash;
-    return $this->userRepository->update($user, $user['id'])->toArray();
+    return $this->userRepository->update($user, $user['id']);
   }
 
   //login check

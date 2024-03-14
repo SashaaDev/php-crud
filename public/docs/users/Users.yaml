@@ -125,6 +125,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserCreates"
+        "403":
+          description: "Forbidden."
         "404":
           description: "User not found."
         "422":

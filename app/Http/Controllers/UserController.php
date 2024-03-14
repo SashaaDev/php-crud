@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ForbiddenException;
 use App\Models\User;
 use App\Services\PostService;
 use Illuminate\Http\Request;
@@ -40,7 +41,6 @@ class UserController extends Controller
   {
     return $this->userService->updateUser($request->all(), $id);
   }
-
   public function deleteOne(string|int $id)
   {
     return $this->userService->deleteUser($id);

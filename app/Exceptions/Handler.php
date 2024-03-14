@@ -29,6 +29,11 @@ class Handler extends ExceptionHandler
                 'message' => $unauthorized->getMessage(),
             ], 401);
         });
+        $this->renderable(function (ForbiddenException $forbiddenException) {
+            return response()->json([
+                'message'=> $forbiddenException->getMessage(),
+            ],403);
+        });
         $this->renderable(function (NotFoundException $notFound) {
             return response()->json([
                 // 'status' => $e->getCode(),

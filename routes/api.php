@@ -24,7 +24,6 @@ Route::group([
   'prefix' => 'auth'
 ], function ($router) {
   Route::post('login', [AuthController::class, 'login']);
-  // Route::get('users', [AuthController::class, 'users']);
   Route::put('registration', [AuthController::class, 'registration']);
   Route::get('send/{email}', [AuthController::class, 'generateHash']);
 });
