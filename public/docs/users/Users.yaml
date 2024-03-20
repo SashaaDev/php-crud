@@ -23,9 +23,9 @@ paths:
             application/json:
               schema:
                 $ref: "#components/schemas/PaginateUsers"
-                
+
     put:
-      summary : Creating a user.
+      summary: Creating a user.
       description: This endpoint creates a new user in the system
       requestBody:
         content:
@@ -69,20 +69,20 @@ paths:
                   $ref: "#/components/examples/NameMaxLength"
                 NameNumAndLetter:
                   $ref: "#/components/examples/NameNumAndLetter"
-                NameIsRequired:
-                  $ref: "#/components/examples/NameIsRequired"
+                # NameIsRequired:
+                #   $ref: "#/components/examples/NameIsRequired"
                 EmailAlreadyUse:
                   $ref: "#/components/examples/EmailAlreadyUse"
                 EmailIsNotValid:
                   $ref: "#/components/examples/EmailIsNotValid"
-                EmailIsRequired:
-                  $ref: "#/components/examples/NameIsRequired"
+                # EmailIsRequired:
+                #   $ref: "#/components/examples/NameIsRequired"
                 PasswordMinLength:
                   $ref: "#/components/examples/PasswordMinLength"
                 PasswordIsString:
                   $ref: "#/components/examples/PasswordIsString"
-                PasswordIsRequired:
-                  $ref: "#/components/examples/PasswordIsRequired"
+                # PasswordIsRequired:
+                #   $ref: "#/components/examples/PasswordIsRequired"
 
     delete:
       summary: Deleting users.
@@ -162,6 +162,14 @@ paths:
           description: "User not founded."
 #data
 components:
+  securitySchemes:
+      BasicAuth:
+        type: http
+        scheme: basic
+      BearerAuth:
+        type: http
+        scheme: bearer
+         
   schemas:
     UserRequest:
       type: object

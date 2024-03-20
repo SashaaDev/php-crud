@@ -34,6 +34,9 @@ Route::post('/users', [UserController::class, 'create']);
 Route::put('/users/{id}', [UserController::class, 'update']);
 Route::delete('/users/{id}', [UserController::class, 'deleteOne']);
 Route::delete('/users', [UserController::class, 'deleteAll']);
+Route::get('/users/{id}/avatar', [UserController::class, 'getAvatar']);
+Route::post('/users/{id}/avatar', [UserController::class, 'uploadAvatar']);
+Route::patch('/users/{id}/avatar', [UserController::class, 'deleteAvatar']);
 
 Route::get('/posts', [PostController::class, 'getAll']);
 Route::get('/posts/{id}', [PostController::class, 'getOne']);

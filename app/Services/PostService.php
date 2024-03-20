@@ -6,6 +6,9 @@ use App\Repository\PostRepository;
 
 class PostService
 {
+  /**
+   * @var object
+   */
   protected $postRepository;
 
   public function __construct(PostRepository $postRepository)
@@ -13,27 +16,51 @@ class PostService
     $this->postRepository = $postRepository;
   }
 
-  public function createPost(array $data)
+  /**
+   * @param array $data
+   * 
+   * @return array
+   */
+  public function createPost(array $data):array
   {
     return $this->postRepository->create($data);
   }
 
-  public function getAllPosts()
+  /**
+   * @return array
+   */
+  public function getAllPosts(): array
   {
     return $this->postRepository->getAll();
   }
 
-  public function getOnePost($id)
+  /**
+   * @param string|int $id
+   * 
+   * @return array
+   */
+  public function getOnePost(string|int $id): array
   {
     return $this->postRepository->getOne($id);
   }
 
-  public function updatePost(array $data, $id)
+  /**
+   * @param array $data
+   * @param string|int $id
+   * 
+   * @return array
+   */
+  public function updatePost(array $data, string|int $id): array
   {
     return $this->postRepository->update($data, $id);
   }
 
-  public function deletePost($id)
+  /**
+   * @param string|int $id
+   * 
+   * @return bool
+   */
+  public function deletePost(string|int $id): bool|null 
   {
     return $this->postRepository->delete($id);
   }

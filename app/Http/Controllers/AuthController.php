@@ -18,7 +18,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
-use function PHPSTORM_META\type;
+// use function PHPSTORM_META\type;
 
 class AuthController extends Controller
 {
@@ -27,7 +27,7 @@ class AuthController extends Controller
         // $this->middleware('auth:api', ['except' => ['login']]);
     }
 
-    public function login(LoginRequest $loginRequest)
+    public function login(LoginRequest $loginRequest):array
     {
         $credentials = new UserLoginDTO(
             email: $loginRequest->get('email'),
@@ -36,6 +36,11 @@ class AuthController extends Controller
         return $this->authService->loginAuth($credentials);
     }
 
+    /**
+     * @param RegistartionRequest $registartionRequest
+     * 
+     * @return array<string, string>
+     */
     public function registration(RegistartionRequest $registartionRequest): array
     {
         $credentials = new UserRegistrationDTO(
@@ -47,11 +52,21 @@ class AuthController extends Controller
         return $this->authService->registrationUser($credentials);
     }
 
+    /**
+     * @param string $email
+     * 
+     * @return array<string, string>
+     */
     public function generateHash(string $email): array
     {
         return $this->authService->emailInviteCheck($email);
     }
 
+    /**
+     * @param array $user
+     * 
+     * @return array<string, string>
+     */
     public function generateBcrypt(array $user): array
     {
         return $this->authService->hashUpdate($user);

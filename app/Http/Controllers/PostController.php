@@ -12,33 +12,52 @@ class PostController extends Controller
   {
   }
 
-  public function getAll()
+  /**
+   * @return array
+   */
+  public function getAll(): array
   {
-    return response()->json($this->postService->getAllPosts());
+    return $this->postService->getAllPosts();
   }
 
-  public function getOne($id)
+  /**
+   * @param string|int $id
+   * 
+   * @return array
+   */
+  public function getOne(string|int $id): array
   {
-    return response()->json($this->postService->getOnePost($id));
+    return $this->postService->getOnePost($id);
   }
 
-  public function create(Request $request)
+  /**
+   * @param Request $request
+   * 
+   * @return array
+   */
+  public function create(Request $request): array
   {
     return $this->postService->createPost($request->all());
   }
 
-  public function update(Request $request, $id)
+  /**
+   * @param Request $request
+   * @param string|int $id
+   * 
+   * @return array
+   */
+  public function update(Request $request, string|int $id):array
   {
     return $this->postService->updatePost($request->all(), $id);
   }
 
-  public function delete($id)
+  /**
+   * @param string|int $id
+   * 
+   * @return bool
+   */
+  public function delete(string|int $id): bool|null
   {
-    $result = $this->postService->deletePost($id);
-    if (!$result) {
-      return response()->json(['message' => 'Немає такого поста'], 404);
-    } else {
-      return response()->json(['message' => 'Видалення поста успішне'], 200);
-    }
+    return $this->postService->deletePost($id);
   }
 }

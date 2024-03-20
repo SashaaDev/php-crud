@@ -48,7 +48,8 @@ paths:
                 $ref: "#/components/schemas/UserRegistrationResult"
         "404":
           description: There is no such user.
-
+        "409":
+          description: User already exists.
         "422":
           description: Incorrect entering data.
           content:
@@ -80,14 +81,14 @@ paths:
     get:
       summary: Invite using email
       description: Here, a hash is generated for the user who created the email in the system.
-      parameters: 
-        - $ref: "#/components/parameters/emailParam" 
+      parameters:
+        - $ref: "#/components/parameters/emailParam"
       responses:
         "200":
           description: Hash generated successfully.
           content:
             application/json:
-              schema: 
+              schema:
                 $ref: "#/components/schemas/HashUpdate"
         "404":
           description: There is no such user.
@@ -164,26 +165,26 @@ components:
     HashUpdate:
       type: object
       properties:
-        id: 
+        id:
           type: integer
           format: int32
           example: 1
-        name: 
+        name:
           type: string
           example: User1
-        email: 
+        email:
           type: string
           example: UserFirst1@gmail.com
-        email_verified_at: 
+        email_verified_at:
           type: string
           format: nullable
-        hash: 
+        hash:
           type: string
           example: $2y$12$9uAEOFt.RY1Z7oy6tOujbOT/zcqn7y4PDyph5ME9wnf6qMWwiht0G
-        created_at: 
+        created_at:
           type: string
           example: 2024-03-13T10:30:04.000000Z
-        updated_at: 
+        updated_at:
           type: string
           example: 2024-03-13T14:14:56.000000Z
 

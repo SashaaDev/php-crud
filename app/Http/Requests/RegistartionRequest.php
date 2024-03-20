@@ -23,7 +23,8 @@ class RegistartionRequest extends FormRequest
     {
         return [
             'name' => 'alpha_num|required|max:20|min:2',
-            'email' => 'required|email|unique:users',
+            // 'email' => 'required|email|unique:users',
+            'email' => 'required|email',
             'password' => 'required|string|min:8',
         ];
     }

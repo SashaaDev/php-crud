@@ -25,20 +25,23 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (UnauthorizedException $unauthorized) {
             return response()->json([
-                // 'status' => $e->getCode(),
                 'message' => $unauthorized->getMessage(),
             ], 401);
         });
         $this->renderable(function (ForbiddenException $forbiddenException) {
             return response()->json([
-                'message'=> $forbiddenException->getMessage(),
-            ],403);
+                'message' => $forbiddenException->getMessage(),
+            ], 403);
         });
         $this->renderable(function (NotFoundException $notFound) {
             return response()->json([
-                // 'status' => $e->getCode(),
                 'message' => $notFound->getMessage(),
             ], 404);
+        });
+        $this->renderable(function (ConflictExceptions $conflictException) {
+            return response()->json([
+                'message' => $conflictException->getMessage(),
+            ], 409);
         });
     }
 }
