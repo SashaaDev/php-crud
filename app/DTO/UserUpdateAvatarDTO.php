@@ -2,7 +2,7 @@
 
 namespace App\DTO;
 
-class UserLoadAvatarDTO
+class UserUpdateAvatarDTO
 {
   public function __construct(
     private readonly string $name,

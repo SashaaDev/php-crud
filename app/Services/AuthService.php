@@ -35,15 +35,25 @@ class AuthService
    * 
    * @return array
    */
-  public function loginAuth(UserLoginDTO $credentials)
+  public function loginAuth(UserLoginDTO $credentials): array
   {
+    $name = $credentials->getPassword();
+    $user = $this->userRepository->getUserByEmail($credentials->getEmail());
+    // dd($user);
+    if ($user) {
+      if ($this->isUserHasInviteHash($user, $user['id'])) {
+      }
+    }
     if (!$token = $this->authWrapperService->attempt($credentials->setCredentials())) {
+      // dd($name);
       throw new UnauthorizedException('Unauthorized');
     }
-    // dd($token);
     return $this->respondWithToken($token);
   }
-
+  public function checkUserAndInviteHash(array $user): bool
+  {
+    return $this->isUserHasInviteHash($user, $user['id']);
+  }
   /**
    * @param UserRegistrationDTO $credentials
    * 
@@ -51,15 +61,16 @@ class AuthService
    */
   public function registrationUser(UserRegistrationDTO $credentials): array
   {
-
     $user = $this->userRepository->getUserByEmail($credentials->getEmail());
     if ($user) {
       if ($this->isUserHasInviteHash($user, $user['id']) && $user['name'] === 'user') {
-        return $this->userRepository->update($credentials->setCredentials(), $user['id']);
+
+        $credentials->setPassword($this->hashWrapperService->bcryptHashCreate($credentials->getPassword()));
+        return $this->userRepository->update($credentials, $user['id']);
       }
       throw new ConflictExceptions('User already exists.');
     }
-    return $this->userRepository->create($credentials->setCredentials());
+    return $this->userRepository->register($credentials);
   }
 
   /**
@@ -106,7 +117,6 @@ class AuthService
    */
   public function isUserInviteHashValid(?string $userHash, string $key): bool
   {
-    // dd($this->decryptHashUser($userHash, $key));
     return $this->decryptHashUser($userHash, $key) ? true : false;
   }
 
@@ -131,7 +141,7 @@ class AuthService
     // dd(gettype($user));
     $hash = $this->hashWrapperService->hashUpdate($user);
     $user['hash'] = $hash;
-    return $this->userRepository->update($user, $user['id']);
+    return $this->userRepository->updateHash($user, $user['id']);
   }
 
 

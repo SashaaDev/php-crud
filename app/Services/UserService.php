@@ -3,33 +3,28 @@
 namespace App\Services;
 
 use App\DTO\UserLoadAvatarDTO;
+use App\DTO\UserUpdateAvatarDTO;
+use App\DTO\UserUpdateDTO;
+use App\DTO\UserCreateDTO;
+use App\DTO\UserRegistrationDTO;
 use App\Exceptions\ForbiddenException;
-use App\Exceptions\NotFoundException;
-use App\Http\Requests\UpdateAvatarRequest;
 use App\Models\User;
 use App\Repository\AvatarRepository;
 use App\Repository\FileRepository;
 use App\Repository\UserRepository;
-use Exception;
-use Faker\Provider\Image;
-use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
   public const PART_PATH_AVATARS = 'avatars';
-  /**
-   * @var object
-   */
-  protected $userRepository, $fileRepository, $avatarRepository;
+
 
   public function __construct(
-    UserRepository $userRepository,
-    FileRepository $fileRepository,
-    AvatarRepository $avatarRepository
+    private readonly UserRepository $userRepository,
+    protected readonly FileRepository $fileRepository,
+    private readonly AvatarRepository $avatarRepository,
+
+    private readonly AuthWrapperService $authWrapperService
   ) {
-    $this->userRepository = $userRepository;
-    $this->fileRepository = $fileRepository;
-    $this->avatarRepository = $avatarRepository;
   }
 
   /**
@@ -51,12 +46,12 @@ class UserService
   }
 
   /**
-   * @param UserLoadAvatarDTO $userLoadAvatarDTO
+   * @param UserUpdateAvatarDTO $userLoadAvatarDTO
    * @param string|int $id
    * 
    * @return array
    */
-  public function loadAvatar(UserLoadAvatarDTO $userLoadAvatarDTO, string|int $id): array
+  public function loadAvatar(UserUpdateAvatarDTO $userLoadAvatarDTO, string|int $id): array
   {
     $this->userRepository->makeTransaction(function () use ($userLoadAvatarDTO, $id) {
       $user = $this->userRepository->getOne($id);
@@ -65,10 +60,10 @@ class UserService
       if ($user['avatar']) {
         $this->deleteAvatar($user);
       }
+
       return $this->updateAvatarData($file, $extension, $user);
     });
-    return
-      $this->userRepository->getOne($id);
+    return $this->userRepository->getOne($id);
   }
 
   /**
@@ -105,8 +100,8 @@ class UserService
   public function updateAvatarData(bool|string $file, string $extension, array $user): array
   {
     $fileName = $this->avatarRepository->setRandomName($extension);
-    $this->userRepository->updateUserAvatar($fileName, $file);
     $user = $this->setAvatarUrl($fileName, $user);
+    $this->userRepository->updateUserAvatar($fileName, $file);
     return $user;
   }
 
@@ -120,7 +115,7 @@ class UserService
   {
     $fileurl = (self::PART_PATH_AVATARS) . '/' . $fileName;
     $user['avatar'] = $fileurl;
-    return $this->userRepository->update($user, $user['id']);
+    return $this->userRepository->updateAvatar($user, $user['id']);
   }
 
   /**
@@ -132,14 +127,15 @@ class UserService
   {
     return $this->userRepository->getAvatar($id);
   }
+
   /**
-   * @param array $data
+   * @param UserRegistrationDTO|UserCreateDTO $credentials
    * 
-   * @return array<string, string>
+   * @return array
    */
-  public function createUser(array $data): array
+  public function createUser(UserCreateDTO $credentials): array
   {
-    return $this->userRepository->create($data);
+    return $this->userRepository->create($credentials);
   }
 
   /**
@@ -149,16 +145,30 @@ class UserService
    * @return array<string, string>
    */
 
-  public function updateUser(array $data, string|int $id): array
+  public function updateUser(UserUpdateDTO $credentials, string|int $id): array
   {
     if (auth()->user() === null) {
       throw new ForbiddenException('Forbidden.');
     }
-    $authUser = auth()->user();
+    /** @var User $authUser */
+    $authUser = $this->authWrapperService->user();
+    //todo authWrapper
+
     if ($authUser->id != $id) {
       throw new ForbiddenException('Forbidden.');
     }
-    return $this->userRepository->update($data, $id);
+    $formattedCredentials=$this->formatDTOtoArray($credentials);
+    return $this->userRepository->update($formattedCredentials, $id);
+
+  }
+
+  private function formatDTOtoArray(UserUpdateDTO $credentials): array
+  {
+   return  [
+      'name' => $credentials->getName(),
+      'email' => $credentials->getEmail(),
+      'password' => $credentials->getPassword(),
+   ];
   }
 
   /**
@@ -191,7 +201,7 @@ class UserService
         $user = $this->userRepository->getOne($id);
         $this->deleteAvatar($user);
         $user['avatar'] = null;
-        return $this->userRepository->update($user, $id);
+        return $this->userRepository->updateAvatar($user, $id);
       }
     );
     return $this->userRepository->getOne($id);

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\DTO\PostCreateDTO;
+use App\DTO\PostUpdateDTO;
 use App\Repository\PostRepository;
 
 class PostService
@@ -21,9 +23,9 @@ class PostService
    * 
    * @return array
    */
-  public function createPost(array $data):array
+  public function createPost(PostCreateDTO $credentials):array
   {
-    return $this->postRepository->create($data);
+    return $this->postRepository->create($credentials->setCredentials());
   }
 
   /**
@@ -50,9 +52,16 @@ class PostService
    * 
    * @return array
    */
-  public function updatePost(array $data, string|int $id): array
+  public function updatePost(PostUpdateDTO $credentials, string|int $id): array
   {
-    return $this->postRepository->update($data, $id);
+    return $this->postRepository->update($credentials, $id);
+  }
+  private function convertDTOtoDBFormat(PostCreateDTO $credentials): array
+  {
+    return [
+      'title' => $credentials->getTitle(),
+      'description' => $credentials->getDescription(),
+    ];
   }
 
   /**

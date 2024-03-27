@@ -2,13 +2,15 @@
 
 namespace App\Repository;
 
+use App\DTO\UserCreateDTO;
+use App\DTO\UserRegistrationDTO;
+use App\DTO\UserUpdateAvatarDTO;
+use App\DTO\UserUpdateDTO;
 use App\Exceptions\NotFoundException;
+use App\Http\Requests\UserAvatarUpdateRequest;
 use App\Models\User;
-use Exception;
-use Illuminate\Bus\Dispatcher;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Illuminate\Support\Js;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
  * [Description UserRepository]
@@ -17,12 +19,10 @@ class UserRepository extends DataBaseRepository
 {
   public const PAG_PAGE_SIZE = 10;
 
-  protected $dispatcher;
-  protected $avatarRepository;
-  public function __construct(AvatarRepository $avatarRepository, Dispatcher $dispatcher)
-  {
-    $this->dispatcher = $dispatcher;
-    $this->avatarRepository = $avatarRepository;
+  public function __construct(
+    private Model $model,
+    private readonly AvatarRepository $avatarRepository
+  ) {
   }
 
   /**
@@ -30,8 +30,10 @@ class UserRepository extends DataBaseRepository
    */
   public function getAll(): array
   {
-    $users = User::paginate(self::PAG_PAGE_SIZE);
-    return $users->toArray();
+    // return $this->model->query()->paginate(self::PAG_PAGE_SIZE)->toArray();
+    /** @var Collection $allUsers */
+    $allUsers = $this->model->query()->paginate(self::PAG_PAGE_SIZE);
+    return $allUsers->toArray();
   }
 
   /**
@@ -42,8 +44,7 @@ class UserRepository extends DataBaseRepository
   public function getOne(string|int $id): array
   {
     $user = $this->findUser($id);
-    $user->all();
-    return $user->toArray();
+    return $user;
   }
   /**
    * @param string|int $id
@@ -55,30 +56,80 @@ class UserRepository extends DataBaseRepository
     $user = $this->getOne($id);
     return $user['avatar'];
   }
+  public const MODEL = 'model';
 
   /**
    * @param array $data
    * 
    * @return array<string, string>
    */
-  public function create(array $data): array
+  public function create(UserCreateDTO $credentials): array
   {
-    $user = User::create($data);
+    $user = $this->model->query()->create([
+      'email' => $credentials->getEmail(),
+    ]);
+
     return $user->toArray();
   }
-
+  public function register(UserRegistrationDTO $credentials): array
+  {
+    $user = $this->model->query()->create([
+      'name' => $credentials->getName(),
+      'email' => $credentials->getEmail(),
+      'password' => $credentials->getPassword(),
+    ]);
+    return $user->toArray();
+  }
   /**
    * @param array $data
    * @param int|string $id
    * 
    * @return array<string, string>
    */
-  public function update(array $data, int|string $id): array
+  public function update(array|UserUpdateDTO|UserRegistrationDTO $credentials, int|string $id): array
   {
-    $user = $this->findUser($id);
-    $user->update($data);
+    $this->findUser($id);
 
-    return $user->toArray();
+
+    $this->model->query()->where('id', $id)->update(
+      [
+        'name' => $credentials->getName(),
+        'email' => $credentials->getEmail(),
+        'password' => $credentials->getPassword(),
+        'hash' => null,
+      ]
+    );
+    return $this->findUser($id);
+  }
+
+  /**
+   * @param array $user
+   * @param int|string $id
+   * 
+   * @return array
+   */
+  public function updateAvatar(array $user, int|string $id): array
+  {
+    $this->findUser($id);
+    $this->model->query()->where('id', $id)->update([
+      'avatar' => $user['avatar'],
+    ]);
+    return $this->findUser($id);
+  }
+
+  /**
+   * @param array $user
+   * @param int|string $id
+   * 
+   * @return array
+   */
+  public function updateHash(array $user, int|string $id): array
+  {
+    $this->findUser($id);
+    $this->model->query()->where('id', $id)->update([
+      'hash' => $user['hash'],
+    ]);
+    return $this->findUser($id);
   }
 
   /**
@@ -88,23 +139,24 @@ class UserRepository extends DataBaseRepository
    */
   public function delete(string|int $id): bool
   {
-    $user = $this->findUser($id);
-    $user->delete();
+    $this->findUser($id);
+    $this->model->query()->delete();
     return true;
   }
 
   /**
    * @param string|int $id
    * 
-   * @return User|null
+   * @return array
    */
-  public function findUser(string|int $id): ?User
+  public function findUser(string|int $id): array
   {
-    $user = User::find($id);
+    $user = $this->model->query()->find($id);
+
     if (!$user) {
       throw new NotFoundException('There is no such user.');
     }
-    return $user;
+    return $user->toArray();
   }
 
   /**
@@ -112,9 +164,9 @@ class UserRepository extends DataBaseRepository
    */
   public function deleteAll(): bool
   {
-    $user = User::count();
+    $user = $this->model->query()->count();
     if ($user) {
-      User::truncate();
+      $this->model->query()->truncate();
     }
     return true;
   }
@@ -126,7 +178,7 @@ class UserRepository extends DataBaseRepository
    */
   public function getUserByEmail(string $email): array
   {
-    $user = User::query()->where('email', $email)->first();
+    $user = $this->model->query()->where('email', $email)->first();
     return $user ? $user->toArray() : [];
   }
 

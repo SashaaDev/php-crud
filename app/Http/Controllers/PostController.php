@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\PostCreateDTO;
+use App\DTO\PostUpdateDTO;
+use App\Http\Requests\PostCreateRequest;
+use App\Http\Requests\PostUpdateRequest;
 use Illuminate\Http\Request;
 use App\Services\PostService;
+use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
 {
@@ -35,9 +40,13 @@ class PostController extends Controller
    * 
    * @return array
    */
-  public function create(Request $request): array
+  public function create(PostCreateRequest $postCreateRequest): JsonResponse
   {
-    return $this->postService->createPost($request->all());
+    $credentials = new PostCreateDTO(
+      title: $postCreateRequest->get('title'),
+      description :  $postCreateRequest->get('description'),
+    );
+    return response()->json($this->postService->createPost($credentials));
   }
 
   /**
@@ -46,9 +55,13 @@ class PostController extends Controller
    * 
    * @return array
    */
-  public function update(Request $request, string|int $id):array
+  public function update(PostUpdateRequest $postUpdateRequest, string|int $id):JsonResponse
   {
-    return $this->postService->updatePost($request->all(), $id);
+    $credentials = new PostUpdateDTO(
+      title: $postUpdateRequest->get('title'),
+      description:$postUpdateRequest->get('description'),
+    );
+    return response()->json($this->postService->updatePost($credentials, $id));
   }
 
   /**

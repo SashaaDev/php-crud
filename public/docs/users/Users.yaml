@@ -24,7 +24,7 @@ paths:
               schema:
                 $ref: "#components/schemas/PaginateUsers"
 
-    put:
+    post:
       summary: Creating a user.
       description: This endpoint creates a new user in the system
       requestBody:
@@ -69,20 +69,14 @@ paths:
                   $ref: "#/components/examples/NameMaxLength"
                 NameNumAndLetter:
                   $ref: "#/components/examples/NameNumAndLetter"
-                # NameIsRequired:
-                #   $ref: "#/components/examples/NameIsRequired"
                 EmailAlreadyUse:
                   $ref: "#/components/examples/EmailAlreadyUse"
                 EmailIsNotValid:
                   $ref: "#/components/examples/EmailIsNotValid"
-                # EmailIsRequired:
-                #   $ref: "#/components/examples/NameIsRequired"
                 PasswordMinLength:
                   $ref: "#/components/examples/PasswordMinLength"
                 PasswordIsString:
                   $ref: "#/components/examples/PasswordIsString"
-                # PasswordIsRequired:
-                #   $ref: "#/components/examples/PasswordIsRequired"
 
     delete:
       summary: Deleting users.

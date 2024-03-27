@@ -7,7 +7,7 @@ class UserRegistrationDTO
   public function __construct(
     private readonly string $name,
     private readonly string $email,
-    private readonly string $password
+    private string $password
   ) {
   }
 
@@ -27,11 +27,15 @@ class UserRegistrationDTO
   }
   public function setCredentials(): array
   {
-    return ([
+    return [
       'name' => $this->name,
       'email' => $this->email,
       'password' => $this->password,
       'hash' => null,
-    ]);
+    ];
+  }
+  public function setPassword(string $password): void
+  {
+    $this->password = $password;
   }
 }

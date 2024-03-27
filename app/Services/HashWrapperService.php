@@ -16,4 +16,7 @@ class HashWrapperService
   {
     return Hash::make($user['id']);
   }
+  public function bcryptHashCreate(string $neededHash): string {
+    return Hash::createBcryptDriver()->make($neededHash);
+  }
 }
