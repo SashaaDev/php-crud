@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTO\UserRegistrationDTO;
 use App\DTO\UserLoginDTO;
 use App\Exceptions\ConflictExceptions;
+use App\Exceptions\ForbiddenException;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\UnauthorizedException;
 use App\Http\Requests\AppUserRequest;
@@ -37,23 +38,60 @@ class AuthService
    */
   public function loginAuth(UserLoginDTO $credentials): array
   {
-    $name = $credentials->getPassword();
     $user = $this->userRepository->getUserByEmail($credentials->getEmail());
-    // dd($user);
     if ($user) {
-      if ($this->isUserHasInviteHash($user, $user['id'])) {
+      $this->checkHash($user);
+      $password = $this->userRepository->getPassword($user['email']);
+      // dd($password);
+      if ($password === null) {
+        throw new ConflictExceptions('There is no password in the database.');
       }
+      return $this->authenticateUser($credentials);
     }
-    if (!$token = $this->authWrapperService->attempt($credentials->setCredentials())) {
-      // dd($name);
-      throw new UnauthorizedException('Unauthorized');
+    throw new NotFoundException('There is no such user.');
+  }
+
+  /**
+   * @param array $user
+   * 
+   * @return void
+   */
+  public function checkHash(array $user): void
+  {
+    if ($this->isUserHasInviteHash($user, $user['id'])) {
+      throw new ForbiddenException('You need to complete the registration process.');
     }
+  }
+
+  /**
+   * @param UserLoginDTO $credentials
+   * 
+   * @return array
+   */
+  public function authenticateUser(UserLoginDTO $credentials): array
+  {
+    // dd($credentials->getPassword());
+    $token = $this->authWrapperService->attempt($credentials->setCredentials());
+    if (!$token) {
+      throw new UnauthorizedException('Unauthorized.');
+    }
+    // dd($token);
     return $this->respondWithToken($token);
   }
-  public function checkUserAndInviteHash(array $user): bool
+
+  /**
+   * @param string $email
+   * 
+   * @return void
+   */
+  public function getPasswordOrThrowIfNotFound(string $email): void
   {
-    return $this->isUserHasInviteHash($user, $user['id']);
+    $password = $this->userRepository->getPassword($email);
+    if ($password === null) {
+      throw new ConflictExceptions('This user don`t have a hash.');
+    }
   }
+
   /**
    * @param UserRegistrationDTO $credentials
    * 
@@ -63,15 +101,29 @@ class AuthService
   {
     $user = $this->userRepository->getUserByEmail($credentials->getEmail());
     if ($user) {
-      if ($this->isUserHasInviteHash($user, $user['id']) && $user['name'] === 'user') {
+      if ($this->isUserHasInviteHash($user, $user['id'])) {
 
         $credentials->setPassword($this->hashWrapperService->bcryptHashCreate($credentials->getPassword()));
         return $this->userRepository->update($credentials, $user['id']);
       }
+      $this->getPasswordOrThrowIfNotFound($user['email']);
       throw new ConflictExceptions('User already exists.');
     }
     return $this->userRepository->register($credentials);
   }
+  // public function registrationUser(UserRegistrationDTO $credentials): array
+  // {
+  //   $user = $this->userRepository->getUserByEmail($credentials->getEmail());
+  //   if ($user) {
+  //     if ($this->isUserHasInviteHash($user, $user['id']) && $user['name'] === 'user') {
+
+  //       $credentials->setPassword($this->hashWrapperService->bcryptHashCreate($credentials->getPassword()));
+  //       return $this->userRepository->update($credentials, $user['id']);
+  //     }
+  //     throw new ConflictExceptions('User already exists.');
+  //   }
+  //   return $this->userRepository->register($credentials);
+  // }
 
   /**
    * @param string $email
@@ -117,6 +169,7 @@ class AuthService
    */
   public function isUserInviteHashValid(?string $userHash, string $key): bool
   {
+    // dd($userHash, $key);
     return $this->decryptHashUser($userHash, $key) ? true : false;
   }
 

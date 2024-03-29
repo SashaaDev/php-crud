@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+
 use Illuminate\Contracts\Auth\Authenticatable;
 
 class AuthWrapperService
@@ -13,6 +14,8 @@ class AuthWrapperService
    */
   public function attempt(array $credentials): mixed
   {
+    dd($credentials);
+    dd(auth()->attempt($credentials));
     return auth()->attempt($credentials);
   }
   public function user(): Authenticatable|null

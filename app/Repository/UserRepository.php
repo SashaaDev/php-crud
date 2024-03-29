@@ -30,7 +30,6 @@ class UserRepository extends DataBaseRepository
    */
   public function getAll(): array
   {
-    // return $this->model->query()->paginate(self::PAG_PAGE_SIZE)->toArray();
     /** @var Collection $allUsers */
     $allUsers = $this->model->query()->paginate(self::PAG_PAGE_SIZE);
     return $allUsers->toArray();
@@ -80,28 +79,28 @@ class UserRepository extends DataBaseRepository
     ]);
     return $user->toArray();
   }
+
   /**
-   * @param array $data
+   * @param array|UserUpdateDTO $credentials
    * @param int|string $id
    * 
-   * @return array<string, string>
+   * @return array
    */
-  public function update(array|UserUpdateDTO|UserRegistrationDTO $credentials, int|string $id): array
+  public function update(UserRegistrationDTO|UserUpdateDTO $credentials, int|string $id): array
   {
     $this->findUser($id);
 
 
-    $this->model->query()->where('id', $id)->update(
-      [
-        'name' => $credentials->getName(),
-        'email' => $credentials->getEmail(),
-        'password' => $credentials->getPassword(),
-        'hash' => null,
-      ]
-    );
+    $updatedData = [
+      'name' => $credentials->getName(),
+      'email' => $credentials->getEmail(),
+      'password' => $credentials->getPassword(),
+      'hash' => null,
+    ];
+
+    $this->model->query()->where('id', $id)->update($updatedData);
     return $this->findUser($id);
   }
-
   /**
    * @param array $user
    * @param int|string $id
@@ -160,14 +159,30 @@ class UserRepository extends DataBaseRepository
   }
 
   /**
+   * @param string|null $email
+   * 
+   * @return string|null
+   */
+  public function getPassword(?string $email): ?string
+  {
+    $user = $this->model->query()->where('email', $email)->first();
+    // return $user ? $user->password : null;
+    if (!$user) {
+      return null;
+    }
+    $user->makeVisible('password');
+    return $user->password;
+  }
+
+  /**
    * @return bool
    */
   public function deleteAll(): bool
   {
-    $user = $this->model->query()->count();
-    if ($user) {
-      $this->model->query()->truncate();
-    }
+    // $user = $this->model->query()->count();
+    // if ($user) {
+    $this->model->query()->truncate();
+    // }
     return true;
   }
 

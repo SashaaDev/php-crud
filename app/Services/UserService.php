@@ -157,19 +157,18 @@ class UserService
     if ($authUser->id != $id) {
       throw new ForbiddenException('Forbidden.');
     }
-    $formattedCredentials=$this->formatDTOtoArray($credentials);
-    return $this->userRepository->update($formattedCredentials, $id);
-
+    // $formattedCredentials=$this->formatDTOtoArray($credentials);
+    return $this->userRepository->update($credentials, $id);
   }
 
-  private function formatDTOtoArray(UserUpdateDTO $credentials): array
-  {
-   return  [
-      'name' => $credentials->getName(),
-      'email' => $credentials->getEmail(),
-      'password' => $credentials->getPassword(),
-   ];
-  }
+  // private function formatDTOtoArray(UserUpdateDTO $credentials): array
+  // {
+  //  return  [
+  //     'name' => $credentials->getName(),
+  //     'email' => $credentials->getEmail(),
+  //     'password' => $credentials->getPassword(),
+  //  ];
+  // }
 
   /**
    * @param string|int $id
